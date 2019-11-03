@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         }
         ImageButton news = findViewById(R.id.news);
         if(news != null) {
-            charger.setOnClickListener(clk -> {
+            news.setOnClickListener(clk -> {
                 Intent goToNewsPage = new Intent(MainActivity.this, NewsPage.class);
 
                 MainActivity.this.startActivityForResult(goToNewsPage, 30);
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         }
         ImageButton food = findViewById(R.id.recipe);
         if(news != null) {
-            charger.setOnClickListener(clk -> {
+            food.setOnClickListener(clk -> {
                 Intent goToRecipePage = new Intent(MainActivity.this, RecipePage.class);
 
                 MainActivity.this.startActivityForResult(goToRecipePage, 40);
