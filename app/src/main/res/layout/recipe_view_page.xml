@@ -17,5 +17,4 @@
         android:layout_height="wrap_content"
         android:id="@+id/the_list"
     />
-
 </LinearLayout>

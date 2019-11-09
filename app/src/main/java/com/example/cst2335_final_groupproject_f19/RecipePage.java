@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class RecipePage extends AppCompatActivity {
     MyOwnAdapter listAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list_page);
     }
@@ -34,17 +33,16 @@ public class RecipePage extends AppCompatActivity {
             return recipeList.get(position);
         }
 
-        public View getView(int position, View old, ViewGroup parent)
-        {
+        public View getView(int position, View old, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
 
             View newView = inflater.inflate(R.layout.recipe_list_row, parent, false );
 
             Recipe thisRow = getItem(position);
-            TextView rowName = (TextView)newView.findViewById(R.id.row_name);
+            TextView rowName = (TextView)newView.findViewById(R.id.);
 
 
-            rowName.setText("Name:" + thisRow.getName());
+            rowName.setText("Title:" + thisRow.getTitle());
 
             //return the row:
             return newView;
