@@ -5,17 +5,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 public class RecipePage extends AppCompatActivity {
+    //an array list of objects that
     private ArrayList<Recipe> recipeList =new ArrayList<>();
 
     int positionClicked =0;
+    //a copy of the adapter
     MyOwnAdapter listAdapter;
 
     @Override
@@ -23,32 +28,45 @@ public class RecipePage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list_page);
-        recipeList.add(new Recipe("publisher","f2f_url","title","source_url","recipe_id","image_url",0.0,"publisher_url"));
-        ListView recipeList =findViewById(R.id.the_list);
-        recipeList.setAdapter(listAdapter=new MyOwnAdapter());
-        recipeList.setOnItemClickListener( ( lv, vw, pos, id) ->{
+        //find the progress bar
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        //set the progress bar to be visible so that it can be shown as a place holder
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setProgress(50);
+        //fake data for use until data can be retreved
+        recipeList.add(new Recipe("A Spicy Perspective","http://food2fork.com/view/bf5134","Vietnamese Banh Mi Salad","http://www.aspicyperspective.com/2013/01/vietnamese-chicken-salad.html","bf5134","http://static.food2fork.com/IMG_28181180x1807551.jpg",99.99896179226475,"http://www.aspicyperspective.com"));
+        recipeList.add(new Recipe("A Spicy Perspective","http://food2fork.com/view/aa60ec","Butter Chicken Sliders with Pickled Mango Slaw","http://www.aspicyperspective.com/2013/03/butter-chicken-sliders-big-land-olakes-giveaway.html","aa60ec","http://static.food2fork.com/IMG_35501180x1803eee.jpg",99.99888808120132,"http://www.aspicyperspective.com"));
+        recipeList.add(new Recipe("BBC Good Food","http://food2fork.com/view/495802","Chicken cacciatore","http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore","495802","http://static.food2fork.com/4251_MEDIUM71f0.jpg",99.99999994031722,"http://www.bbcgoodfood.com"));
+        //find the list view
+        ListView recipeListView =findViewById(R.id.the_list);
+        //use the adapter populate the list
+        recipeListView.setAdapter(listAdapter=new MyOwnAdapter());
+        //set Toasts and Snackbars to give information about the Recipe
+        //will probably do something else later
+        recipeListView.setOnItemClickListener( ( lv, vw, pos, id) ->{
 
             Toast.makeText( RecipePage.this,
-                    "You clicked on:" + pos, Toast.LENGTH_SHORT).show();
-
+                    "You clicked on: " + recipeList.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
+            Snackbar.make(vw,"the publisher is "+recipeList.get(pos).getPublisher(),Snackbar.LENGTH_LONG).show();
         } );
     }
 
     protected class MyOwnAdapter extends BaseAdapter {
+        //the size of the array list we made earlier
         @Override
         public int getCount() {
             return recipeList.size();
         }
-
+        //get a specific item in the list
         public Recipe getItem(int position){
             return recipeList.get(position);
         }
-
+        //gets the position of the item
         @Override
         public long getItemId(int position) {
             return position;
         }
-
+        //sets the individual row of the list
         public View getView(int position, View old, ViewGroup parent) {
             View newView=old;
 

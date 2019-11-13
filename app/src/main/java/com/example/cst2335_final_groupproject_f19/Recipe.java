@@ -33,7 +33,7 @@ class Recipe {
     public void setRecipe_id(String recipe_id){this.recipe_id=recipe_id;}
     public void setImage_url(String image_url){this.image_url=image_url;}
     public void setSocial_rank(double social_rank){this.social_rank=social_rank;}
-    public void setPublisher_url(String image_url){this.publisher_url=publisher_url;}
+    public void setPublisher_url(String publisher_url){this.publisher_url=publisher_url;}
 
     public String getPublisher() { return publisher; }
     public String getF2f_url(){ return f2f_url;}
@@ -42,5 +42,6 @@ class Recipe {
     public String getRecipe_id(){return recipe_id;}
     public String getImage_url(){return image_url;}
     public double getSocial_rank(){return social_rank;}
+    public String getPublisher_url(){return publisher_url;}
 }
 
