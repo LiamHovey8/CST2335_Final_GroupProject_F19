@@ -91,7 +91,7 @@ public class NewsPage extends AppCompatActivity {
 
     private void alertExample()
     {
-        View middle = getLayoutInflater().inflate(R.layout.news_list_page, null);
+        View middle = getLayoutInflater().inflate(R.layout.news_dialog_notification, null);
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
