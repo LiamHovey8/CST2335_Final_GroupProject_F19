@@ -16,9 +16,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 public class RecipePage extends AppCompatActivity {
-    //an array list of objects that
+    //an array list of objects that hold the data of recipes
     private ArrayList<Recipe> recipeList =new ArrayList<>();
-
+    //will be used later don't worry
     int positionClicked =0;
     //a copy of the adapter
     MyOwnAdapter listAdapter;
@@ -51,7 +51,7 @@ public class RecipePage extends AppCompatActivity {
         } );
     }
 
-    protected class MyOwnAdapter extends BaseAdapter {
+    private class MyOwnAdapter extends BaseAdapter {
         //the size of the array list we made earlier
         @Override
         public int getCount() {

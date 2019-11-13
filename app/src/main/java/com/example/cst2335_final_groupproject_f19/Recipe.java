@@ -1,5 +1,9 @@
 package com.example.cst2335_final_groupproject_f19;
+//the recipe class is here to store the data about recipes in one
 
+/**
+ *
+ */
 class Recipe {
     private String publisher;
     private String f2f_url;
