@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,16 +42,16 @@ public class CarChargerFinder extends AppCompatActivity {
         ListView theList = findViewById(R.id.searchList);
         theList.setAdapter(carChargerAdapter = new CarChargerAdapter());
         theList.setOnItemClickListener((lv, vw, pos, id) -> {
-            alertBox();
-            /*Toast.makeText(CarChargerFinder.this,
-                    "You clicked on: " + pos, Toast.LENGTH_SHORT).show();*/
+            //alertBox();
+            Toast.makeText(CarChargerFinder.this,
+                    "You clicked on: " + pos, Toast.LENGTH_SHORT).show();
         });
 
         /*Button alertButton = findViewById(R.id.searchButton);
         alertButton.setOnClickListener(click -> alertBox());*/
     }
 
-    public void alertBox() {
+    /*public void alertBox() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Details regarding the selected station will display here!")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -67,7 +68,7 @@ public class CarChargerFinder extends AppCompatActivity {
                 });
 
         builder.create().show();
-    }
+    }*/
 
     private class CarChargerQuery extends AsyncTask<String, String, String> {
         String locationName, latitude, longitude, contactPhone, searchCoordinates;
