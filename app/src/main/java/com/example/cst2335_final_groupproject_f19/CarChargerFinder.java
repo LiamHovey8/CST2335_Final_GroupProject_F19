@@ -37,7 +37,7 @@ public class CarChargerFinder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.car_charger_view_page);
 
-        new CarChargerQuery().execute();
+        //new CarChargerQuery().execute();
 
         ListView theList = findViewById(R.id.searchList);
         theList.setAdapter(carChargerAdapter = new CarChargerAdapter());
