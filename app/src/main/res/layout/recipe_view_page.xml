@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:id="@+id/search_recipe_bar"
-        android:hint="search"/>
+        android:hint="@string/search"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +15,6 @@
     <listView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/the_list"
+        android:id="@+id/the_recipe_list"
     />
 </LinearLayout>

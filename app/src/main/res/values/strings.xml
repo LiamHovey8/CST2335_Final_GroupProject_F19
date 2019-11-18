@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">CST2335_Final_GroupProject_F19</string>
+    <string name="recipe_page_name">Recipe Page</string>
+    <string name="news_page_name">News Page</string>
+    <string name="car_charger_page_name">Car Charger Finder Page</string>
+    <string name="currency_exchange_page_name">Currency Exchange Page</string>
+    <string name="recipe_title">Title: </string>
+    <string name="search">SEARCH</string>
 
 </resources>
