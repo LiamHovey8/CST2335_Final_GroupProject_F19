@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton exchange = findViewById(R.id.coin);
         if(exchange != null) {
             exchange.setOnClickListener(clk -> {
-                Intent goToCurrencyExchange = new Intent(MainActivity.this, CurrencyExchange.class);
+                Intent goToCurrencyExchange = new Intent(MainActivity.this, CurrencyExchangeMain.class);
 
                 MainActivity.this.startActivityForResult(goToCurrencyExchange, 10);
             });
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton charger = findViewById(R.id.charger);
         if(charger != null) {
             charger.setOnClickListener(clk -> {
-                Intent goToCarChargerFinder = new Intent(MainActivity.this, CarChargerFinder.class);
+                Intent goToCarChargerFinder = new Intent(MainActivity.this, CarCharger.class);
 
                 MainActivity.this.startActivityForResult(goToCarChargerFinder, 20);
             });
