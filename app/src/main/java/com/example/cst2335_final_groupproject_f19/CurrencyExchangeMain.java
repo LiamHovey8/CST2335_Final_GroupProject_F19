@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,6 +49,7 @@ import static org.xmlpull.v1.XmlPullParser.TEXT;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.w3c.dom.Text;
 
@@ -76,14 +80,29 @@ public class CurrencyExchangeMain extends AppCompatActivity {
     Double retrievedInputRate;
     Double retrievedOutputRate;
 
+    /**
+    onCreate function is the first command to run in the project.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        x=null;
+
 
         super.onCreate(savedInstanceState);
+        /**
+         * Creates layout and toolbar
+         */
         setContentView(R.layout.currency_exchange_home);
+        Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
+        setSupportActionBar(tBar);
+        /**
+         * Sets JSONObject x to null.
+        */
+        x=null;
 
+        /**
+         * Creates items to and populates ListView.
+         */
         Conversion anEx = new Conversion(1.0, 1.5, "CAD", "USD");
         Conversion anEx2 = new Conversion(1.0, 1.4, "CAD", "EUR");
 
@@ -100,17 +119,19 @@ public class CurrencyExchangeMain extends AppCompatActivity {
             Toast.makeText(this, "This is the conversion from " + favouritesArrayList.get(position).getInputCurrency() + " to " + favouritesArrayList.get(position).getOutputCurrency(), Toast.LENGTH_LONG).show();
         });
 
-
+        /**
+         * Runs decision() method if the runConversionButton is clicked.
+         */
 
         runConversionButton = findViewById(R.id.runConversionButton);
-
 
         if (runConversionButton != null) {
             runConversionButton.setOnClickListener(v -> decision());
         }
 
-
-
+        /**
+         * Runs alertExample() dialog box method if showHelpMenu button is clicked.
+         */
 
         showHelpMenuButton = findViewById(R.id.showHelpMenuButton);
         if (showHelpMenuButton != null) {
@@ -118,20 +139,13 @@ public class CurrencyExchangeMain extends AppCompatActivity {
             showHelpMenuButton.setOnClickListener(v -> alertExample());
         }
 
-
-
-
-
-//
-//        Button runSnackbar = (Button) findViewById(R.id.searchAsSnackbarButton);
-//
-//        runSnackbar.setOnClickListener(view -> {
-//
-//            Snackbar.make(findViewById(android.R.id.content), "sample snackbar", Snackbar.LENGTH_LONG).show();
-//
-//        });
     }
 
+    /**
+     * Method checks if the JSONObject x containing the array of currency conversions is null and either:
+     * a) runs Async to retrieve the information if it is null
+     * b) calls the alreadyRun() method if it is not null
+     */
     public void decision(){
         retrieveConversions aConversion = new retrieveConversions();
         if(x==null)
@@ -139,6 +153,9 @@ public class CurrencyExchangeMain extends AppCompatActivity {
         else{alreadyRun(); }
     }
 
+    /**
+     * Runs Async task to connect to the internet and retrieve conversion values
+     */
     private class retrieveConversions extends AsyncTask<String, Integer, String> {
 
 
@@ -148,11 +165,31 @@ public class CurrencyExchangeMain extends AppCompatActivity {
             String conversionsURL1 = "https://api.exchangeratesapi.io/latest";
 
             String ret = null;
+
+            /**
+             * Attempt to establish connection to internet, retrieve exchange rates, and pass information
+             * to post execute
+             */
             try {
+                /**
+                 * Create new URL based on link
+                 */
                 URL conversionsURL = new URL(conversionsURL1);
+                /**
+                 * Establish URL connection
+                 */
                 HttpURLConnection urlConnection = (HttpURLConnection) conversionsURL.openConnection();
+                /**
+                 * Establish inStream
+                 */
                 InputStream inStream = urlConnection.getInputStream();
+                /**
+                 * Establish buffered reader
+                 */
                 BufferedReader conversionReader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
+                /**
+                 * Create string builder to interpret online information
+                 */
                 StringBuilder sb = new StringBuilder();
 
                 String line = null;
@@ -161,8 +198,14 @@ public class CurrencyExchangeMain extends AppCompatActivity {
                 }
                 String result = sb.toString();
 
-                jObject = new JSONObject(result);
+                /**
+                 * Create jObject from result of string builder
+                 */
 
+                jObject = new JSONObject(result);
+                /**
+                 * Catch exceptions
+                 */
 
             } catch (JSONException joe) {
                 ret = "JSON exception";
@@ -182,9 +225,14 @@ public class CurrencyExchangeMain extends AppCompatActivity {
 
 
             try {
-
+                /**
+                 * Create JSONObject from information from doInBackground
+                 */
                 x = jObject.getJSONObject("rates");
 
+                /**
+                 * Runs alreadyRun() method to perform calculations and provide response.
+                 */
                 alreadyRun();
 
 
@@ -198,7 +246,9 @@ public class CurrencyExchangeMain extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Base adapter class to populate ListView
+     */
     private class myListAdapter extends BaseAdapter {
 
         @Override
@@ -233,6 +283,9 @@ public class CurrencyExchangeMain extends AppCompatActivity {
         }
     }
 
+    /**
+     * Produce dialog box with instructions for app use
+     */
     public void alertExample() {
         View middle = getLayoutInflater().inflate(R.layout.dialog_box, null);
 
@@ -246,9 +299,16 @@ public class CurrencyExchangeMain extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * Performs calculations using inputs and provides output
+     */
+
     public void alreadyRun() {
         String ret = null;
         try {
+            /**
+             * Fetches values entered by user
+             */
             EditText inputValue = findViewById(R.id.currencyValueInput);
             String inputValueNum = inputValue.getText().toString();
 
@@ -259,7 +319,12 @@ public class CurrencyExchangeMain extends AppCompatActivity {
             String outputCurrencyString = outputCurrency.getText().toString();
 
             String eur="EUR";
-           if(inputCurrencyString.equals(eur)){
+
+            /**
+             * Because of JSON format, need to check if user is looking for values in euros and set retrieved input
+             * rate appropriately
+             */
+            if(inputCurrencyString.equals(eur)){
                 retrievedInputRate=1.0;
             }
             else {
@@ -272,9 +337,16 @@ public class CurrencyExchangeMain extends AppCompatActivity {
                 retrievedOutputRate = x.getDouble(outputCurrencyString);
             }
 
+            /**
+             * Calculate conversion rate based on rates of input and output currencies
+             */
             Double conversionRate = retrievedInputRate / retrievedOutputRate;
 
             Double convertedOutput = (Double.parseDouble(inputValueNum) * conversionRate);
+
+            /**
+             * Outputs values to app screen
+             */
 
             EditText outputValue = findViewById(R.id.CurrencyValueOutput);
             outputValue.setText(convertedOutput.toString());
@@ -282,6 +354,51 @@ public class CurrencyExchangeMain extends AppCompatActivity {
         (JSONException joe) {
             ret = "JSON exception";
         }
+    }
+
+    /**
+     * Create toolbar
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.page_menu, menu);
+        return true;
+    }
+
+    /**
+     * Switch case for options in tool bar
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            /**
+             * If user selects picture for currency exchange, snackbar notifies user that they are already
+             * on this page
+             */
+            case R.id.currency_exchange_page_menu_link:
+                Snackbar sn = Snackbar.make(findViewById(R.id.navigation_toolbar), "You are already on this page.", Snackbar.LENGTH_LONG);
+                //sn.setAction("finish", v->finish());
+                sn.show();
+
+                break;
+            /**
+             * If user selects other options, navigates them to those pages.
+             */
+            case R.id.car_charger_page_menu_link:
+                Intent goToCarChargerFinder = new Intent(CurrencyExchangeMain.this, CarCharger.class);
+                CurrencyExchangeMain.this.startActivityForResult(goToCarChargerFinder, 10);
+                break;
+            case R.id.recipe_page_menu_link:
+                Intent goRecipePage = new Intent(CurrencyExchangeMain.this, RecipePage.class);
+                CurrencyExchangeMain.this.startActivityForResult(goRecipePage, 10);
+                break;
+            case R.id.news_page_menu_link:
+                Intent goToNewsPage = new Intent(CurrencyExchangeMain.this, NewsPage.class);
+                CurrencyExchangeMain.this.startActivityForResult(goToNewsPage, 10);
+                break;
+        }
+        return true;
     }
 }
 
