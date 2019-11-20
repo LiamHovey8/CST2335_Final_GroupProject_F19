@@ -1,6 +1,7 @@
 package com.example.cst2335_final_groupproject_f19;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -85,6 +86,28 @@ public class RecipePage extends AppCompatActivity {
             Snackbar.make(vw,"the publisher is "+recipeList.get(pos).getPublisher(),Snackbar.LENGTH_LONG).show();
         } );
     }
+
+    private class MyNetworkQuery extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            ProgressBar progressBar=findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(values[0]);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+    }
+
 
     private class MyOwnAdapter extends BaseAdapter {
         //the size of the array list we made earlier
