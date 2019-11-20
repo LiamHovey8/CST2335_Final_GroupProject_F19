@@ -25,13 +25,4 @@
         app:showAsAction="always"
         android:id="@+id/currency_exchange_page_menu_link"
         />
-
-<<<<<<< HEAD
 </menu>
-=======
-</menu>
-
-
-
-
->>>>>>> 6d75298c7cf426cd86b4b52b68cebe6900e460c6
