@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cst2335_final_groupproject_f19">
+<<<<<<< HEAD
+    <uses-permission android:name="android.permission.INTERNET" />
+=======
 
     <uses-permission android:name="android.permission.INTERNET" />
 
 
+>>>>>>> 6d75298c7cf426cd86b4b52b68cebe6900e460c6
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
