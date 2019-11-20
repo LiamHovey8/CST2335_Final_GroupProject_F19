@@ -22,7 +22,6 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 public class RecipePage extends AppCompatActivity {
-<<<<<<< HEAD
     //an array list of objects that hold the data of recipes
     private ArrayList<Recipe> recipeList =new ArrayList<>();
     //will be used later don't worry
@@ -46,7 +45,7 @@ public class RecipePage extends AppCompatActivity {
                 RecipePage.this.startActivityForResult(goToCarChargerFinder, 10);
                 break;
             case R.id.currency_exchange_page_menu_link:
-                Intent goToCurrencyExchange = new Intent(RecipePage.this, CurrencyExchange.class);
+                Intent goToCurrencyExchange = new Intent(RecipePage.this, CurrencyExchangeMain.class);
                 RecipePage.this.startActivityForResult(goToCurrencyExchange, 10);
                 break;
             case R.id.news_page_menu_link:
@@ -141,49 +140,5 @@ public class RecipePage extends AppCompatActivity {
             return newView;
         }
     }
-=======
-//    private ArrayList<Recipe> recipeList =new ArrayList<>();
-//
-//    int positionClicked =0;
-//    MyOwnAdapter listAdapter;
-//
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.recipe_list_page);
-//    }
-//
-//    protected class MyOwnAdapter extends BaseAdapter {
-//        @Override
-//        public int getCount() {
-//            return recipeList.size();
-//        }
-//
-//        public Recipe getItem(int position){
-//            return recipeList.get(position);
-//        }
-//
-//        public View getView(int position, View old, ViewGroup parent)
-//        {
-//            LayoutInflater inflater = getLayoutInflater();
-//
-//            View newView = inflater.inflate(R.layout.recipe_list_row, parent, false );
-//
-//            Recipe thisRow = getItem(position);
-//            TextView rowName = (TextView)newView.findViewById(R.id.row_name);
-//
-//
-//            rowName.setText("Name:" + thisRow.getName());
-//
-//            //return the row:
-//            return newView;
-//        }
-//
-//        public long getItemId(int position)
-//        {
-//            return getItem(position).getId();
-//        }
-//    }
->>>>>>> 6d75298c7cf426cd86b4b52b68cebe6900e460c6
 
 }

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(goToCarChargerFinder, 10);
                 break;
             case R.id.currency_exchange_page_menu_link:
-                Intent goToCurrencyExchange = new Intent(MainActivity.this, CurrencyExchange.class);
+                Intent goToCurrencyExchange = new Intent(MainActivity.this, CurrencyExchangeMain.class);
                 MainActivity.this.startActivityForResult(goToCurrencyExchange, 10);
                 break;
             case R.id.news_page_menu_link:
