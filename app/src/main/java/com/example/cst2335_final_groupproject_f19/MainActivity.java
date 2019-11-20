@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton exchange = findViewById(R.id.coin);
         if(exchange != null) {
             exchange.setOnClickListener(clk -> {
-                Intent goToCurrencyExchange = new Intent(MainActivity.this, CurrencyExchange.class);
+                Intent goToCurrencyExchange = new Intent(MainActivity.this, CurrencyExchangeMain.class);
 
                 MainActivity.this.startActivityForResult(goToCurrencyExchange, 10);
             });
