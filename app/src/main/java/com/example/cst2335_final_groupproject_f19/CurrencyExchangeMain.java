@@ -2,7 +2,6 @@ package com.example.cst2335_final_groupproject_f19;
 
 
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,13 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,33 +26,17 @@ import org.json.JSONObject;
 
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static org.xmlpull.v1.XmlPullParser.END_TAG;
-import static org.xmlpull.v1.XmlPullParser.START_TAG;
-import static org.xmlpull.v1.XmlPullParser.TEXT;
 
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CurrencyExchangeMain extends AppCompatActivity {
 
@@ -386,7 +365,7 @@ public class CurrencyExchangeMain extends AppCompatActivity {
              * If user selects other options, navigates them to those pages.
              */
             case R.id.car_charger_page_menu_link:
-                Intent goToCarChargerFinder = new Intent(CurrencyExchangeMain.this, CarCharger.class);
+                Intent goToCarChargerFinder = new Intent(CurrencyExchangeMain.this, CarChargerFinder.class);
                 CurrencyExchangeMain.this.startActivityForResult(goToCarChargerFinder, 10);
                 break;
             case R.id.recipe_page_menu_link:

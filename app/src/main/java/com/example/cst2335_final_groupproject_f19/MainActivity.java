@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton charger = findViewById(R.id.charger);
         if(charger != null) {
             charger.setOnClickListener(clk -> {
-                Intent goToCarChargerFinder = new Intent(MainActivity.this, CarCharger.class);
+                Intent goToCarChargerFinder = new Intent(MainActivity.this, CarChargerFinder.class);
 
                 MainActivity.this.startActivityForResult(goToCarChargerFinder, 20);
             });

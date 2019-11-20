@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/author"
+        android:id="@+id/author"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activityVersion"
+        android:id="@+id/activityVersion"
+        android:layout_below="@+id/author"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/instructions"
+        android:id="@+id/instructions"
+        android:layout_below="@id/activityVersion"
+        />
+
+
+
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Positive"-->
+<!--        android:id="@+id/positiveButton"-->
+<!--        android:layout_below="@+id/enterNewMessage"-->
+<!--        />-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Negative"-->
+<!--        android:id="@+id/negativeButton"-->
+<!--        android:layout_below="@+id/enterNewMessage"-->
+<!--        android:layout_toRightOf="@id/positiveButton"-->
+<!--        />-->
+
+</RelativeLayout>

@@ -22,7 +22,7 @@
         <activity android:name=".RecipePage"/>
         <activity android:name=".NewsPage"/>
         <activity android:name=".CurrencyExchangeMain"/>
-        <activity android:name=".CarCharger"/>
+        <activity android:name=".CarChargerFinder"/>
         <activity android:name=".CurrencyExchangeFavorites"/>
 
     </application>
