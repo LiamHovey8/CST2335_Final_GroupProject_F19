@@ -1,8 +1,11 @@
 package com.example.cst2335_final_groupproject_f19;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,8 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,28 +50,38 @@ public class CarChargerFinder extends AppCompatActivity {
                     "You clicked on: " + pos, Toast.LENGTH_SHORT).show();
         });
 
-        /*Button alertButton = findViewById(R.id.searchButton);
-        alertButton.setOnClickListener(click -> alertBox());*/
+        Toolbar tBar = findViewById(R.id.navigation_toolbar);
+        setSupportActionBar(tBar);
     }
 
-    /*public void alertBox() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Details regarding the selected station will display here!")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // What to do on Accept
-                        setContentView(R.layout.car_charger_view_page);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // What to do on Cancel
-                        setContentView(R.layout.car_charger_view_page);
-                    }
-                });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.page_menu, menu);
+        return true;
+    }
 
-        builder.create().show();
-    }*/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.car_charger_page_menu_link:
+                Toast.makeText(this, "You're already on that page!", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.recipe_page_menu_link:
+                Intent goToRecipePage = new Intent(CarChargerFinder.this, RecipePage.class);
+                CarChargerFinder.this.startActivityForResult(goToRecipePage, 10);
+                break;
+            case R.id.currency_exchange_page_menu_link:
+                Intent goToCurrencyExchange = new Intent(CarChargerFinder.this, CurrencyExchange.class);
+                CarChargerFinder.this.startActivityForResult(goToCurrencyExchange, 10);
+                break;
+            case R.id.news_page_menu_link:
+                Intent goToNewsPage = new Intent(CarChargerFinder.this, NewsPage.class);
+                CarChargerFinder.this.startActivityForResult(goToNewsPage, 10);
+                break;
+        }
+        return true;
+    }
 
     private class CarChargerQuery extends AsyncTask<String, String, String> {
         String locationName, latitude, longitude, contactPhone, searchCoordinates;
