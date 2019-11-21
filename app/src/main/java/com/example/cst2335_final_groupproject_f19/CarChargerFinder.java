@@ -42,13 +42,13 @@ public class CarChargerFinder extends AppCompatActivity {
 
         //new CarChargerQuery().execute();
 
-        ListView theList = findViewById(R.id.searchList);
+       /* ListView theList = findViewById(R.id.searchList);
         theList.setAdapter(carChargerAdapter = new CarChargerAdapter());
         theList.setOnItemClickListener((lv, vw, pos, id) -> {
             //alertBox();
             Toast.makeText(CarChargerFinder.this,
                     "You clicked on: " + pos, Toast.LENGTH_SHORT).show();
-        });
+        });*/
 
         Toolbar tBar = findViewById(R.id.navigation_toolbar);
         setSupportActionBar(tBar);
@@ -65,7 +65,7 @@ public class CarChargerFinder extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.car_charger_page_menu_link:
-                Toast.makeText(this, "You're already on that page!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You're already on this page!", Toast.LENGTH_LONG).show();
                 break;
             case R.id.recipe_page_menu_link:
                 Intent goToRecipePage = new Intent(CarChargerFinder.this, RecipePage.class);
@@ -84,12 +84,12 @@ public class CarChargerFinder extends AppCompatActivity {
     }
 
     private class CarChargerQuery extends AsyncTask<String, String, String> {
-        String locationName, latitude, longitude, contactPhone, searchCoordinates;
+        String locationName, latitude, longitude, contactPhone;
 
         @Override                       //Type 1
         protected String doInBackground(String... strings) {
             String ret = null;
-            String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&camelcase=true&verbose=false&compact=true&maxresults=10" + searchCoordinates;
+            String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&camelcase=true&verbose=false&maxresults=10&latitude=" + latitude + "&longitude=" + longitude;
 
             try {       // Connect to the server:
                 URL url = new URL(queryURL);
@@ -108,8 +108,18 @@ public class CarChargerFinder extends AppCompatActivity {
                 String result = sb.toString();
 
                 JSONObject jObject = new JSONObject(result);
+
+                jObject.getJSONObject("addressInfo");
                 String title = jObject.getString("title");
                 locationName = title;
+                String lat = jObject.getString("latitude");
+                latitude = lat;
+                String lon = jObject.getString("longitude");
+                longitude = lon;
+                String phone = jObject.getString("contactTelephone1");
+                if (phone != null) {
+                    contactPhone = phone;
+                }
 
             } catch (MalformedURLException mfe) {
                 ret = "Malformed URL exception";
