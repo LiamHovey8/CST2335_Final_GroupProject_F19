@@ -6,7 +6,6 @@
     <string name="news_page_name">News Page</string>
     <string name="car_charger_page_name">Car Charger Finder Page</string>
     <string name="currency_exchange_page_name">Currency Exchange Page</string>
-
     <string name="recipe_title">Title: </string>
     <string name="search">SEARCH</string>
 
@@ -22,5 +21,4 @@
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
-
 </resources>
