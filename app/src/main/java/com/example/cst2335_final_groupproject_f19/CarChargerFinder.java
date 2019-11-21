@@ -72,7 +72,7 @@ public class CarChargerFinder extends AppCompatActivity {
                 CarChargerFinder.this.startActivityForResult(goToRecipePage, 10);
                 break;
             case R.id.currency_exchange_page_menu_link:
-                Intent goToCurrencyExchange = new Intent(CarChargerFinder.this, CurrencyExchange.class);
+                Intent goToCurrencyExchange = new Intent(CarChargerFinder.this, CurrencyExchangeMain.class);
                 CarChargerFinder.this.startActivityForResult(goToCurrencyExchange, 10);
                 break;
             case R.id.news_page_menu_link:
