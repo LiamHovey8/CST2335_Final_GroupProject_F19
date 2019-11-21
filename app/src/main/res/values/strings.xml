@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">CST2335_Final_GroupProject_F19</string>
 
     <string name="recipe_page_name">Recipe Page</string>
@@ -20,16 +21,4 @@
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
-
-
-
-
-
-
-
-
-
-
->>>>>>> 6d75298c7cf426cd86b4b52b68cebe6900e460c6
-
 </resources>
