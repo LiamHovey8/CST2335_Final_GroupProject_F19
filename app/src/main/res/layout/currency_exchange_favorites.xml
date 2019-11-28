@@ -3,8 +3,17 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Favourites"
+        android:id="@+id/favouritesTitle"
+        />
+
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/recipe_title"/>
+        android:id="@+id/favouritesList2"
+        android:layout_below="@id/favouritesTitle"
+        />
 
 </RelativeLayout>
