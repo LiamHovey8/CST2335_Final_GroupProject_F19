@@ -1,7 +1,12 @@
 package com.example.cst2335_final_groupproject_f19;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,8 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,6 +39,11 @@ public class NewsPage extends AppCompatActivity {
         bar = findViewById(R.id.newsBar);
         bar.setVisibility(View.VISIBLE);
         bar.setProgress(25);
+
+        Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
+//        setSupportActionBar(tBar);
+        setSupportActionBar(tBar);
+
         newsLog.add(new News("engadget", "Engadget", "Jon Fingas", "Tesla Autopilot now recognizes traffic cones", "Tesla's Autopilot has been adept at recognizing other cars on the road, but those aren't the only things you have to worry about on the road -- what about the traffic cones that wall you off from roadwork? You can relax after today... well, for the most part.…",
                 "https://www.engadget.com/2019/11/03/tesla-autopilot-traffic-cones/", "\"https://o.aolcdn.com/images/dims?thumbnail=1200%2C630&quality=80&image_uri=https%3A%2F%2Fo.aolcdn.com%2Fimages%2Fdims%3Fcrop%3D3048%252C1925%252C0%252C0%26quality%3D85%26format%3Djpg%26resize%3D1600%252C1010%26image_uri%3Dhttps%253A%252F%252Fs.yimg.com%252Fos%252Fcreatr-images%252F2019-11%252F7b90be30-fe6b-11e9-befb-4fbdc8463b71%26client%3Da1acac3e1b3290917d92%26signature%3Dc2db82af91f8e7cb21141fba9dfa050d6600b0f3&client=amp-blogside-v2&signature=c289ce4b842014b54e17f56915ca98dfc206985c",
                 "2019-11-03T22:01:00Z", "You may not want to put all your trust in the feature just yet. Some early users have warned that Autopilot doesn't always recognize the cones, potentially leading to dangerous lane changes"));
@@ -53,7 +65,49 @@ public class NewsPage extends AppCompatActivity {
             Toast.makeText(NewsPage.this, "You clicked on: " + newsLog.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
         });
+
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.recipe_page_menu_link:
+                Intent goToNewsPage = new Intent(NewsPage.this, RecipePage.class);
+                NewsPage.this.startActivityForResult(goToNewsPage, 10);
+                break;
+            case R.id.car_charger_page_menu_link:
+                Intent goToCarChargerFinder = new Intent(NewsPage.this, CarChargerFinder.class);
+                NewsPage.this.startActivityForResult(goToCarChargerFinder, 10);
+                break;
+            case R.id.currency_exchange_page_menu_link:
+                Intent goToCurrencyExchange = new Intent(NewsPage.this, CurrencyExchange.class);
+                NewsPage.this.startActivityForResult(goToCurrencyExchange, 10);
+                break;
+
+            case R.id.news_page_menu_link:
+
+                break;
+        }
+        return true;
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.page_menu, menu);
+        return true;
+    }
+
+
+    private class ForecastQuery extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+    }
+
+
     private class MyListAdapter extends BaseAdapter {
 
         @Override

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/recipe_page_name"
+        android:icon="@drawable/shoppingbasket"
+        app:showAsAction="always"
+        android:id="@+id/recipe_page_menu_link"
+        />
+    <item
+        android:title="@string/news_page_name"
+        android:icon="@drawable/newspaper"
+        app:showAsAction="always"
+        android:id="@+id/news_page_menu_link"
+        />
+    <item
+        android:title="@string/car_charger_page_name"
+        android:icon="@drawable/electriccar"
+        app:showAsAction="always"
+        android:id="@+id/car_charger_page_menu_link"
+        />
+    <item
+        android:title="@string/currency_exchange_page_name"
+        android:icon="@drawable/coin"
+        app:showAsAction="always"
+        android:id="@+id/currency_exchange_page_menu_link"
+        />
+
+</menu>
+
+
