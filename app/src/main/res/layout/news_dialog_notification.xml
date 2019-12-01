@@ -5,11 +5,12 @@
 
 
 
-    <Button
-        android:id="@+id/newsDialogButton"
-        android:text="test message"
+    <TextView
+        android:id="@+id/newsDialogView"
+        android:text="author name: Lindsay Deng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
 
         />
 
