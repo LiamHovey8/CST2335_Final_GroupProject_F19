@@ -21,8 +21,12 @@
         <activity android:name=".RecipePage" />
         <activity android:name=".NewsPage" />
         <activity android:name=".CurrencyExchangeMain" />
-        <activity android:name=".CarChargerFinder" />
         <activity android:name=".CurrencyExchangeFavorites" />
+        <activity android:name=".CarChargerDatabaseHelper" />
+        <activity android:name=".CarChargerDetails" />
+        <activity android:name=".CarChargerFavourites" />
+        <activity android:name=".CarChargerFinder" />
+        <activity android:name=".CarChargingStation" />
 
     </application>
 

@@ -22,5 +22,13 @@
         android:icon="@drawable/coin"
         android:title="@string/currency_exchange_page_name"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/go_to_app_favourites"
+        app:showAsAction="never"
+        android:title="@string/menu_favourites" />
+    <item
+        android:id="@+id/go_to_app_help"
+        app:showAsAction="never"
+        android:title="@string/menu_help" />
 
 </menu>
