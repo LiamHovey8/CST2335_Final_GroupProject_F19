@@ -1,5 +1,6 @@
 package com.example.cst2335_final_groupproject_f19;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -93,10 +95,11 @@ public class RecipePage extends AppCompatActivity {
         recipeSearchButton.setOnClickListener(clik ->{
             recipeList.clear();
             String searchText = recipeSearchText.getText().toString();
-
-            RecipeQuery  newsQuery = new RecipeQuery();
-            progressBar.setVisibility(View.VISIBLE);
-            newsQuery.execute(searchText);
+            if(searchText.equals("Chicken Breast")||searchText.equals("Lasagna")) {
+                RecipeQuery newsQuery = new RecipeQuery();
+                progressBar.setVisibility(View.VISIBLE);
+                newsQuery.execute(searchText);
+            }
         });
         recipeListView.setOnItemClickListener( ( lv, vw, pos, id) ->{
 
@@ -104,8 +107,27 @@ public class RecipePage extends AppCompatActivity {
                     "You clicked on: " + recipeList.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             Snackbar.make(vw,"the publisher is "+recipeList.get(pos).getPublisher(),Snackbar.LENGTH_LONG).show();
         } );
-    }
 
+    }
+    private void alertExample() {
+        View middle = getLayoutInflater().inflate(R.layout.recipe_dialog_notification, null);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setPositiveButton(getString(R.string.recipe_positive), (dialog, id) -> {
+            RecipeQuery newsQuery = new RecipeQuery();
+            ProgressBar progressBar=findViewById(R.id.recipe_progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+            newsQuery.execute("Chicken Breast");
+        });
+        builder.setNegativeButton(getString(R.string.recipe_negative), (dialog, id) -> {
+            // What to do on Cancel
+        });
+        builder.setView(middle);
+
+        builder.create().show();
+    }
     private class RecipeQuery extends AsyncTask<String, Integer, String> {
 
         @Override
@@ -130,20 +152,35 @@ public class RecipePage extends AppCompatActivity {
             String ret =null;
             JSONObject jObject;
             try {       // Connect to the server:
-                URL url = new URL(strings[0]);
-                //URL UVURL = new URL(queryUV);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream inStream = urlConnection.getInputStream();
+                String ChickenURL="http://torunski.ca/FinalProjectChickenBreast.json";
+                String LasagnaURL="http://torunski.ca/FinalProjectLasagna.json";
+                if(strings[0].equals("Chicken Breast")) {
+                    URL url = new URL(ChickenURL);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream inStream = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 5);
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 5);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
+                    }
+                    String result = sb.toString();
+                    jObject = new JSONObject(result);
+                }else{
+                    URL url = new URL(LasagnaURL);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream inStream = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 5);
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    String result = sb.toString();
+                    jObject = new JSONObject(result);
                 }
-
-                String result = sb.toString();
-                jObject = new JSONObject(result);
+                //URL UVURL = new URL(queryUV);
 
                 JSONArray recipeArray = jObject.getJSONArray("recipes");
                 for (int i = 0; i < recipeArray.length(); i++) {
