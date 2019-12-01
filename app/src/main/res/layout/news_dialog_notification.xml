@@ -3,16 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <TextView
         android:id="@+id/newsDialogView"
-        android:text="author name: Lindsay Deng"
+        android:text="Author name: Lindsay Deng. Database Version: 1.0.
+        Android Studio Version: 3.5.2. How to use: Write in text box and click 'Search' button."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         />
-
 
 </LinearLayout>

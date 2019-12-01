@@ -2,6 +2,7 @@ package com.example.cst2335_final_groupproject_f19;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,6 +48,10 @@ public class NewsPage extends AppCompatActivity {
     String queryURL = "https://newsapi.org/v2/everything?apiKey=090058f5c8d644e6a082834eca3a4d31&q=";
     String newsURL;
 
+    protected SharedPreferences prefs;
+    protected EditText searchEditText;
+    protected SharedPreferences.Editor edit;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +61,15 @@ public class NewsPage extends AppCompatActivity {
         bar = findViewById(R.id.newsBar);
         bar.setVisibility(View.INVISIBLE);
         bar.setProgress(25);
-        EditText searchEditText = findViewById(R.id.newsEditText);
+        searchEditText = findViewById(R.id.newsEditText);
 
         Toolbar tBar = (Toolbar) findViewById(R.id.navigation_toolbar);
         setSupportActionBar(tBar);
 
         Button alertDialogButton = findViewById(R.id.newsButton2);
         alertDialogButton.setOnClickListener(clik -> alertExample()
-
         );
+
         newsList.setOnItemClickListener((lv, vw, pos, id) -> {
             Toast.makeText(NewsPage.this, "You clicked on: " + newsLog.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
@@ -80,6 +85,19 @@ public class NewsPage extends AppCompatActivity {
             newsQuery.execute(newsURL);
 
         });
+
+        prefs = getSharedPreferences("NewsReserveName", MODE_PRIVATE);
+        edit = prefs.edit();
+        String previous = prefs.getString("NewsReserveName", "");
+        searchEditText.setText(previous);
+
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        edit.putString("NewsReserveName", searchEditText.getText().toString());
+        edit.commit();
     }
 
     @Override
@@ -110,15 +128,6 @@ public class NewsPage extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.page_menu, menu);
         return true;
-    }
-
-
-    private class ForecastQuery extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return null;
-        }
     }
 
 
@@ -166,16 +175,17 @@ public class NewsPage extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("The Message")
-                .setPositiveButton("Positive", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // What to do on Accept
                     }
                 })
-                .setNegativeButton("Negative", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // What to do on Cancel
-                    }
-                }).setView(middle);
+//                .setNegativeButton("Negative", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // What to do on Cancel
+//                    }
+//                })
+                .setView(middle);
 
         builder.create().show();
     }
