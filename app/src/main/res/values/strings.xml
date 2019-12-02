@@ -21,6 +21,14 @@
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
+    <string name="recipe_positive">Chicken Breast</string>
+    <string name="recipe_negative">Lasagna</string>
+
+
+
+
+
+
     <string name="favs">Favourites</string>
     <string name="addNewFav">Add a new favourite </string>
     <string name="newFavInputCurr">New favourite input currency: </string>
@@ -37,5 +45,6 @@
     <string name="newsGoToPage">Go to Page</string>
     <string name="newsTitle">Title: </string>
     <string name="newsDescription">Description: </string>
+
 
 </resources>

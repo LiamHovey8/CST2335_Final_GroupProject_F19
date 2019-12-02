@@ -1,6 +1,8 @@
 package com.example.cst2335_final_groupproject_f19;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,25 +11,45 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class RecipePage extends AppCompatActivity {
     //an array list of objects that hold the data of recipes
     private ArrayList<Recipe> recipeList =new ArrayList<>();
     //will be used later don't worry
-    int positionClicked =0;
+    public static final int EMPTY_ACTIVITY = 345;
+    public static final String title = "title";
+    public static final String imageURL = "imageURL";
+    public static final String webPageURL = "webPageURL";
+    protected SharedPreferences prefs;
+    protected EditText searchEditText;
+    protected SharedPreferences.Editor edit;
     //a copy of the adapter
-    BaseAdapter listAdapter;
+    MyOwnAdapter recipeAdapter;
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -57,54 +79,176 @@ public class RecipePage extends AppCompatActivity {
     }
 
 
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        EditText recipeSearchText=findViewById(R.id.search_recipe_bar);
+        edit.putString("RecipeReserveName", recipeSearchText.getText().toString());
+        edit.commit();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list_page);
         Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
+        boolean isTablet=findViewById(R.id.recipe_frame_layout)!=null;
         setSupportActionBar(tBar);
         //find the progress bar
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        //set the progress bar to be visible so that it can be shown as a place holder
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(50);
-        //fake data for use until data can be retreved
-        recipeList.add(new Recipe("A Spicy Perspective","http://food2fork.com/view/bf5134","Vietnamese Banh Mi Salad","http://www.aspicyperspective.com/2013/01/vietnamese-chicken-salad.html","bf5134","http://static.food2fork.com/IMG_28181180x1807551.jpg",99.99896179226475,"http://www.aspicyperspective.com"));
-        recipeList.add(new Recipe("A Spicy Perspective","http://food2fork.com/view/aa60ec","Butter Chicken Sliders with Pickled Mango Slaw","http://www.aspicyperspective.com/2013/03/butter-chicken-sliders-big-land-olakes-giveaway.html","aa60ec","http://static.food2fork.com/IMG_35501180x1803eee.jpg",99.99888808120132,"http://www.aspicyperspective.com"));
-        recipeList.add(new Recipe("BBC Good Food","http://food2fork.com/view/495802","Chicken cacciatore","http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore","495802","http://static.food2fork.com/4251_MEDIUM71f0.jpg",99.99999994031722,"http://www.bbcgoodfood.com"));
+        ProgressBar progressBar = findViewById(R.id.recipe_progress_bar);
+        //set the progress bar to be invisible so that it can be shown as a place holder
+        progressBar.setVisibility(View.INVISIBLE);
+        //the edit text box for search
+        EditText recipeSearchText=findViewById(R.id.search_recipe_bar);
+        prefs = getSharedPreferences("RecipeReserveName", MODE_PRIVATE);
+        edit = prefs.edit();
+        String previous = prefs.getString("RecipeReserveName", "");
+        recipeSearchText.setText(previous);
+        super.onCreate(savedInstanceState);
         //find the list view
         ListView recipeListView =findViewById(R.id.the_recipe_list);
         //use the adapter populate the list
-        recipeListView.setAdapter(listAdapter=new MyOwnAdapter());
+        recipeListView.setAdapter(recipeAdapter=new MyOwnAdapter());
         //set Toasts and Snackbars to give information about the Recipe
         //will probably do something else later
+        Button recipeSearchButton=findViewById(R.id.search_recipe);
+        recipeSearchButton.setOnClickListener(clik ->{
+            recipeList.clear();
+            String searchText = recipeSearchText.getText().toString();
+            if(searchText.equals("Chicken Breast")||searchText.equals("Lasagna")) {
+                RecipeQuery newsQuery = new RecipeQuery();
+                progressBar.setVisibility(View.VISIBLE);
+                newsQuery.execute(searchText);
+            }else {
+                alertExample();
+            }
+        });
         recipeListView.setOnItemClickListener( ( lv, vw, pos, id) ->{
-
+            Bundle recipeInfo= new Bundle();
+            recipeInfo.putString("title",recipeList.get(pos).getTitle());
+            recipeInfo.putString("imageURL",recipeList.get(pos).getImage_url());
+            recipeInfo.putString("webPageURL",recipeList.get(pos).getF2f_url());
+            if(isTablet){
+                RecipeFragment rFragment=new RecipeFragment();
+                rFragment.setArguments(recipeInfo);
+                rFragment.setTablet(true);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.recipe_frame_layout,rFragment )
+                        .addToBackStack("AnyName")
+                        .commit();
+            }else{
+                Intent nextActivity=new Intent(RecipePage.this,EmptyRecipeActivity.class);
+                nextActivity.putExtras(recipeInfo);
+                startActivityForResult(nextActivity,EMPTY_ACTIVITY);
+            }
             Toast.makeText( RecipePage.this,
                     "You clicked on: " + recipeList.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             Snackbar.make(vw,"the publisher is "+recipeList.get(pos).getPublisher(),Snackbar.LENGTH_LONG).show();
         } );
+
     }
 
-    private class MyNetworkQuery extends AsyncTask<String, Integer, String> {
+    private void alertExample() {
+        View middle = getLayoutInflater().inflate(R.layout.recipe_dialog_notification, null);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("unfortunately full functionality for this application has been removed you may such for one of the following");
+        builder.setPositiveButton(getString(R.string.recipe_positive), (dialog, id) -> {
+            RecipeQuery newsQuery = new RecipeQuery();
+            ProgressBar progressBar=findViewById(R.id.recipe_progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+            newsQuery.execute("Chicken Breast");
+        });
+        builder.setNegativeButton(getString(R.string.recipe_negative), (dialog, id) -> {
+            RecipeQuery newsQuery = new RecipeQuery();
+            ProgressBar progressBar=findViewById(R.id.recipe_progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+            newsQuery.execute("Lasagna");
+        });
+        builder.setView(middle);
+
+        builder.create().show();
+    }
+    private class RecipeQuery extends AsyncTask<String, Integer, String> {
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            ProgressBar bar = findViewById(R.id.recipe_progress_bar);
+            bar.setVisibility(View.INVISIBLE);
+            ListView recipeList = findViewById(R.id.the_recipe_list);
+            recipeList.setAdapter(recipeAdapter = new MyOwnAdapter());
+
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            ProgressBar progressBar=findViewById(R.id.progress_bar);
+            ProgressBar progressBar=findViewById(R.id.recipe_progress_bar);
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setProgress(values[0]);
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            return null;
+            String ret =null;
+            JSONObject jObject;
+            try {       // Connect to the server:
+                String ChickenURL="http://torunski.ca/FinalProjectChickenBreast.json";
+                String LasagnaURL="http://torunski.ca/FinalProjectLasagna.json";
+                if(strings[0].equals("Chicken Breast")) {
+                    URL url = new URL(ChickenURL);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream inStream = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 5);
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+
+                    }
+                    String result = sb.toString();
+                    jObject = new JSONObject(result);
+                }else{
+                    URL url = new URL(LasagnaURL);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream inStream = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 5);
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    String result = sb.toString();
+                    jObject = new JSONObject(result);
+                }
+                //URL UVURL = new URL(queryUV);
+
+                JSONArray recipeArray = jObject.getJSONArray("recipes");
+                for (int i = 0; i < recipeArray.length(); i++) {
+                    JSONObject o=recipeArray.getJSONObject(i);
+                    String publisher=o.getString("publisher");
+                    String f2f_url=o.getString("f2f_url");
+                    String title=o.getString("title");
+                    String source_url=o.getString("source_url");
+                    String image_url=o.getString("image_url");
+                    double social_rank=o.getDouble("social_rank");
+                    String publisher_url=o.getString("publisher_url");
+                    recipeList.add(new Recipe (publisher,f2f_url,title,source_url,image_url,social_rank,publisher_url));
+                    int progress = ((i + 1) * 100 /recipeArray.length());
+                    publishProgress(progress);
+
+                }
+
+            } catch (MalformedURLException e) {
+                ret = "Malformed URL exception";
+            } catch (IOException e) {
+                ret = "IO Exception: WIFI not connected";
+            } catch (JSONException e) {
+                ret = "JSON exception";
+            }
+            return ret;
         }
     }
 
