@@ -2,29 +2,51 @@ package com.example.cst2335_final_groupproject_f19;
 
 public class Conversion {
 
+    /**
+     * Value user input for conversion
+     */
     private Double inputValue;
+    /**
+     * Value output by conversion
+     */
     private Double outputValue;
+    /**
+     * Currency of input value
+     */
     private String inputCurrency;
+    /**
+     * Currency of output value
+     */
     private String outputCurrency;
+    /**
+     * ID of conversion
+     */
+    long id;
+
 
     Conversion(){}
 
-//    Conversion(double inputValue, double outputValue, String inputCurrency, String outputCurrency){
-//
-//    }
-
-    Conversion(Double inputValue, Double outputValue, String inputCurrency, String outputCurrency){
+    /**
+     * Create conversion object
+     * @param inputValue
+     * @param outputValue
+     * @param inputCurrency
+     * @param outputCurrency
+     * @param id
+     */
+    Conversion(Double inputValue, Double outputValue, String inputCurrency, String outputCurrency, long id){
 
         setInputValue(inputValue);
-        //this.inputValue = inputValue;
-        //this.outputValue=outputValue;
         setOutputValue(outputValue);
-        //this.inputCurrency=inputCurrency;
         setInputCurrency(inputCurrency);
-        //this.outputCurrency=outputCurrency;
         setOutputCurrency(outputCurrency);
+        setId(id);
 
     }
+
+    /**
+     * Conversion getters and setters
+     */
 
     private void setInputValue(Double inputValue) {
         this.inputValue = inputValue;
@@ -42,6 +64,8 @@ public class Conversion {
         this.outputCurrency = outputCurrency;
     }
 
+    private void setId(long id){this.id=id;}
+
     public Double getInputValue() {
         return inputValue;
     }
@@ -58,14 +82,22 @@ public class Conversion {
         return outputCurrency;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Get part of conversion that shows input and output currency
+     * @return totalListPiece
+     */
     public String getListPiece(){
         String myInputCurrency = getInputCurrency();
         String myOutputCurrency = getOutputCurrency();
-        String totalListPiece = myInputCurrency+" to " +myOutputCurrency;
+        String totalListPiece = myInputCurrency+" -> " +myOutputCurrency;
         return totalListPiece;
     }
 
-    private Conversion getConversion(){
+    public Conversion getConversion(){
         return this;
     }
 

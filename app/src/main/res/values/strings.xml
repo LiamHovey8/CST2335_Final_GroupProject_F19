@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">CST2335_Final_GroupProject_F19</string>
 
     <string name="recipe_page_name">Recipe Page</string>
@@ -13,7 +14,7 @@
     <string name="runConversion">Run Conversion</string>
     <string name="showHelp">Show Help</string>
     <string name="changeFavourites">Edit Favourites</string>
-    <string name="favouritesHeader">Favourite Conversions</string>
+    <string name="favouritesHeader">Conversion Examples</string>
     <string name="inputCurrency">Input Currency</string>
     <string name="outputCurrency">Output Currency</string>
     <string name="author">Author: Kathleen Hardy</string>
@@ -26,6 +27,24 @@
 
 
 
+
+
+    <string name="favs">Favourites</string>
+    <string name="addNewFav">Add a new favourite </string>
+    <string name="newFavInputCurr">New favourite input currency: </string>
+    <string name="newFavOutputCurr">New favourite output currency: </string>
+    <string name="convFrom">This is the conversion: </string>
+    <string name="Ok">Okay</string>
+
+    <string name="newsSearch">Search Article</string>
+    <string name="newsHelp">Help</string>
+    <string name="newsDialog1">Author name: Lindsay Deng</string>
+    <string name="newsDialog2">Database Version: 1.0</string>
+    <string name="newsDialog3">Android Studio Version: 3.5.2</string>
+    <string name="newsDialog4">Write in text box and click \'Search\' button</string>
+    <string name="newsGoToPage">Go to Page</string>
+    <string name="newsTitle">Title: </string>
+    <string name="newsDescription">Description: </string>
 
 
 </resources>
