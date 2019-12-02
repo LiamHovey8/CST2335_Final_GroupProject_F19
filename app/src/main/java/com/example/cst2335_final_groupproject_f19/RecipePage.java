@@ -40,7 +40,7 @@ public class RecipePage extends AppCompatActivity {
     //an array list of objects that hold the data of recipes
     private ArrayList<Recipe> recipeList =new ArrayList<>();
     //will be used later don't worry
-    int positionClicked =0;
+    public static final int EMPTY_ACTIVITY = 345;
     //a copy of the adapter
     MyOwnAdapter recipeAdapter;
     @Override
@@ -78,6 +78,7 @@ public class RecipePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list_page);
         Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
+        boolean isTablet=findViewById(R.id.recipe_frame_layout)!=null;
         setSupportActionBar(tBar);
         //find the progress bar
         ProgressBar progressBar = findViewById(R.id.recipe_progress_bar);
@@ -104,7 +105,23 @@ public class RecipePage extends AppCompatActivity {
             }
         });
         recipeListView.setOnItemClickListener( ( lv, vw, pos, id) ->{
-
+            Bundle recipeInfo= new Bundle();
+            recipeInfo.putString("title",recipeList.get(pos).getTitle());
+            recipeInfo.putString("imageURL",recipeList.get(pos).getImage_url());
+            recipeInfo.putString("webPageURL",recipeList.get(pos).getF2f_url());
+            if(isTablet){
+                RecipeFragment rFragment=new RecipeFragment();
+                rFragment.setTablet(true);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.recipe_frame_layout,rFragment )
+                        .addToBackStack("AnyName")
+                        .commit();
+            }else{
+                Intent nextActivity=new Intent(RecipePage.this,EmptyRecipeActivity.class);
+                nextActivity.putExtras(recipeInfo);
+                startActivityForResult(nextActivity,EMPTY_ACTIVITY);
+            }
             Toast.makeText( RecipePage.this,
                     "You clicked on: " + recipeList.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             Snackbar.make(vw,"the publisher is "+recipeList.get(pos).getPublisher(),Snackbar.LENGTH_LONG).show();

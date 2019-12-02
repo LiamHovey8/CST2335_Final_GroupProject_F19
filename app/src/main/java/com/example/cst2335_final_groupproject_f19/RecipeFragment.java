@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -32,8 +33,10 @@ public class RecipeFragment extends Fragment {
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.fragment_recipe, container, false);
 
-        
-        TextView message = (TextView)result.findViewById(R.id.message);
+
+        TextView recipeTitle = (TextView)result.findViewById(R.id.recipe_detailed_title);
+        TextView recipeURL = (TextView)result.findViewById(R.id.recipe_detailed_url);
+        ImageView recipeImage = (ImageView)result.findViewById(R.id.recipe_image);
    //     message.setText(dataFromActivity.getString(RecipeFragment.ITEM_SELECTED));
 
         //show the id:
