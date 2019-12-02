@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">CST2335_Final_GroupProject_F19</string>
 
     <string name="recipe_page_name">Recipe Page</string>
@@ -27,20 +28,14 @@
     <string name="convFrom">This is the conversion: </string>
     <string name="Ok">Okay</string>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    >>>>>>> 6d75298c7cf426cd86b4b52b68cebe6900e460c6
+    <string name="newsSearch">Search Article</string>
+    <string name="newsHelp">Help</string>
+    <string name="newsDialog1">Author name: Lindsay Deng</string>
+    <string name="newsDialog2">Database Version: 1.0</string>
+    <string name="newsDialog3">Android Studio Version: 3.5.2</string>
+    <string name="newsDialog4">Write in text box and click \'Search\' button</string>
+    <string name="newsGoToPage">Go to Page</string>
+    <string name="newsTitle">Title: </string>
+    <string name="newsDescription">Description: </string>
 
 </resources>
