@@ -5,7 +5,7 @@
     <string name="runConversion">Exécuter</string>
     <string name="showHelp">Assistance</string>
     <string name="changeFavourites">Modifier les favoris</string>
-    <string name="favouritesHeader">Conversions préférées</string>
+    <string name="favouritesHeader">Examples des Conversions</string>
     <string name="inputCurrency">Devise d\'entrée</string>
     <string name="outputCurrency">Devise de sortie</string>
     <string name="author">Auteure: Kathleen Hardy</string>
@@ -16,12 +16,12 @@
     <string name = "car_charger_page_name">Automobile Charger Finder Page</string>
     <string name = "currency_exchange_page_name">Argent Exchange Page</string>
     <string name="snackbar">Maintenant sur ca page.</string>
-
-
-
-
-
-
+    <string name="favs">Favoris</string>
+    <string name="addNewFav">Cree un favori nouveau </string>
+    <string name="newFavInputCurr">Nouveau devise input: </string>
+    <string name="newFavOutputCurr">Nouveau devise output: </string>
+    <string name="convFrom">Le conversion: </string>
+    <string name="Ok">D\'accord</string>
 
 
 
