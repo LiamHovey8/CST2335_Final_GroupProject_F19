@@ -24,22 +24,4 @@
         android:layout_below="@id/activityVersion"
         />
 
-
-
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Positive"-->
-<!--        android:id="@+id/positiveButton"-->
-<!--        android:layout_below="@+id/enterNewMessage"-->
-<!--        />-->
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Negative"-->
-<!--        android:id="@+id/negativeButton"-->
-<!--        android:layout_below="@+id/enterNewMessage"-->
-<!--        android:layout_toRightOf="@id/positiveButton"-->
-<!--        />-->
-
 </RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="newsSearch">搜索新闻</string>
+
+    <string name="newsHelp">帮助</string>
+
+    <string name="newsDialog1">作者： 邓明真</string>
+    <string name="newsDialog2">数据库版本: 1.0</string>
+    <string name="newsDialog3">安卓工作室版本: 3.5.2</string>
+    <string name="newsDialog4">点击 \'搜索\' 按钮</string>
+    <string name="newsGoToPage">去网页</string>
+    <string name="newsTitle">标题: </string>
+    <string name="newsDescription">简介： </string>
+</resources>
