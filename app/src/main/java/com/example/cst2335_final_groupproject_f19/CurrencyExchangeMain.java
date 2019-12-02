@@ -4,8 +4,11 @@ package com.example.cst2335_final_groupproject_f19;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
@@ -38,65 +42,173 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 
+
+
 public class CurrencyExchangeMain extends AppCompatActivity {
 
 
+
+
+
+    public static final String ITEM_SELECTED = "ITEM";
+    public static final String ITEM_SR = "Send or Receive";
+    public static final String ITEM_ID = "ID";
+    public static final int EMPTY_ACTIVITY = 345;
+    public static final int PUSHED_DELETE = 35;
+
+    /**
+     * Open helper for database
+     */
+    public CurrencyOpenHelper dbOpener;
+    /**
+     * SQLiteDatabase
+     */
+    public SQLiteDatabase db;
+    /**
+     * Button to run conversions
+     */
     Button runConversionButton;
+    /**
+     * Button to display instruction dialog box
+     */
     Button showHelpMenuButton;
-    Button enterFavourite;
-    String sampleToast = "Here's a toast test";
-    String sampleSnackBar = "Here's a snackbar test";
+
     int duration = 10;
     View view;
+    /**
+     * Array list for sample calculations
+     */
     ArrayList<Conversion> favouritesArrayList = new ArrayList<>();
-
-
+    /**
+     * Base adapter for list
+     */
     BaseAdapter theAdapter;
+    /**
+     * JSONObject to store results of doInBackground
+     */
     JSONObject jObject;
-
+    /**
+     * JSONObject for passing array
+     */
     JSONObject x;
-
+    /**
+     * values user will enter
+     */
     Double retrievedInputRate;
     Double retrievedOutputRate;
+    /**
+     * Progress bar to show doInBackground progress
+     */
+    ProgressBar showProgressBar;
+
+    /**
+     * SharedPreferences for storing input and output currencies
+     */
+    private SharedPreferences mPreferences;
+    private SharedPreferences mPreferences2;
+    /**
+     * EditTexts where users will input currencies
+     */
+    protected EditText inputCurrency;
+    protected EditText outputCurrency;
+    /**
+     * Editors for shared preferences
+     */
+    protected SharedPreferences.Editor editor;//Error here, fixed
+    protected SharedPreferences.Editor editor2;//Error here, fixed
+
+
+
 
     /**
     onCreate function is the first command to run in the project.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
+        /**
+         * Set layout
+         */
+        setContentView(R.layout.currency_exchange_home);
+        /**
+         * Create toolbar
+         */
+        Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
+        setSupportActionBar(tBar);
+        /**
+         * Declare boolean to check if emulator is a tablet
+         */
+        boolean isTablet=findViewById(R.id.fragmentLocation)!=null;//
+        /**
+         * Create shared preferences to save input and output currencies
+         */
+        mPreferences = getSharedPreferences("mySharedPref", MODE_PRIVATE);
+        mPreferences2 = getSharedPreferences("mySharedPref2", MODE_PRIVATE);
+
+        inputCurrency = findViewById(R.id.inputCurrency);
+        outputCurrency = findViewById(R.id.outputCurrency);
+
+        /**
+         * Set information in shared preferences
+         */
+        String inputCurrencyPref = mPreferences.getString("mySharedPref", "");
+        String outputCurrencyPref = mPreferences2.getString("mySharedPref2", "");
+        editor = mPreferences.edit();
+        editor2=mPreferences2.edit();
+
+        inputCurrency.setText(inputCurrencyPref);
+        outputCurrency.setText(outputCurrencyPref);
+
+
+        /**
+         * Create writeable database
+         */
+
+        dbOpener = new CurrencyOpenHelper(this);
+        db = dbOpener.getWritableDatabase();
+
         /**
          * Creates layout and toolbar
          */
-        setContentView(R.layout.currency_exchange_home);
-        Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
-        setSupportActionBar(tBar);
+
+
+        showProgressBar=findViewById(R.id.progressBar);
+        showProgressBar.setVisibility(View.VISIBLE);
         /**
          * Sets JSONObject x to null.
         */
         x=null;
 
         /**
-         * Creates items to and populates ListView.
+         * Creates items for array list
          */
-        Conversion anEx = new Conversion(1.0, 1.5, "CAD", "USD");
-        Conversion anEx2 = new Conversion(1.0, 1.4, "CAD", "EUR");
-
+        Conversion anEx = new Conversion(1.0, 1.5, "CAD", "USD",1);
+        Conversion anEx2 = new Conversion(1.0, 1.4, "CAD", "EUR",2);
+        /**
+         * Populate array list
+         */
         favouritesArrayList.add(anEx);
         favouritesArrayList.add(anEx2);
 
-
+        /**
+         * Create list view
+         */
         ListView theListView = findViewById(R.id.favouritesList);
 
-
+        /**
+         * Set adapter for the list view
+         */
         theListView.setAdapter(theAdapter = new myListAdapter());
 
+        /**
+         * Set up on item click listener to run toast when items are selected
+         */
+
         theListView.setOnItemClickListener((listView, aView, position, idNum) -> {
-            Toast.makeText(this, "This is the conversion from " + favouritesArrayList.get(position).getInputCurrency() + " to " + favouritesArrayList.get(position).getOutputCurrency(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getText(R.string.convFrom) + favouritesArrayList.get(position).getInputCurrency() + " -> " + favouritesArrayList.get(position).getOutputCurrency(), Toast.LENGTH_LONG).show();
         });
+
+
 
         /**
          * Runs decision() method if the runConversionButton is clicked.
@@ -116,6 +228,17 @@ public class CurrencyExchangeMain extends AppCompatActivity {
         if (showHelpMenuButton != null) {
 
             showHelpMenuButton.setOnClickListener(v -> alertExample());
+        }
+        /**
+         * Set up intent to navigate to currencyExchangeFavourites if the Edit Favourites button is selected
+         */
+        Button enterFavourites = findViewById(R.id.enterFavourite);
+        if(enterFavourites != null) {
+            enterFavourites.setOnClickListener(clk -> {
+                Intent goToCurrencyExchangeFavourites = new Intent(CurrencyExchangeMain.this, CurrencyExchangeFavorites.class);
+
+                CurrencyExchangeMain.this.startActivityForResult(goToCurrencyExchangeFavourites, 30);
+            });
         }
 
     }
@@ -147,7 +270,8 @@ public class CurrencyExchangeMain extends AppCompatActivity {
 
             /**
              * Attempt to establish connection to internet, retrieve exchange rates, and pass information
-             * to post execute
+             * to post execute.
+             * Publishes progress to toolbar at each step
              */
             try {
                 /**
@@ -158,6 +282,8 @@ public class CurrencyExchangeMain extends AppCompatActivity {
                  * Establish URL connection
                  */
                 HttpURLConnection urlConnection = (HttpURLConnection) conversionsURL.openConnection();
+                publishProgress(25);
+
                 /**
                  * Establish inStream
                  */
@@ -166,6 +292,8 @@ public class CurrencyExchangeMain extends AppCompatActivity {
                  * Establish buffered reader
                  */
                 BufferedReader conversionReader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
+                publishProgress(50);
+
                 /**
                  * Create string builder to interpret online information
                  */
@@ -176,12 +304,15 @@ public class CurrencyExchangeMain extends AppCompatActivity {
                     sb.append(line + "\n");
                 }
                 String result = sb.toString();
+                publishProgress(75);
 
                 /**
                  * Create jObject from result of string builder
                  */
 
                 jObject = new JSONObject(result);
+                publishProgress(100);
+
                 /**
                  * Catch exceptions
                  */
@@ -195,11 +326,31 @@ public class CurrencyExchangeMain extends AppCompatActivity {
             return ret;
         }
 
+        /**
+         * Sets toolbar to visible when receiving progress updates
+         * @param values
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            showProgressBar=findViewById(R.id.progressBar);
+            showProgressBar.setVisibility(View.VISIBLE);
 
+            showProgressBar.setProgress(values[0]);
+
+        }
+
+        /**
+         * Makes progress bar invisible after execution complete
+         * sets value of JSONObject x and runs alreadyRun() method
+         * @param sentFromDoInBackground
+         */
         @Override
         protected void onPostExecute(String sentFromDoInBackground) {
 
             super.onPostExecute(sentFromDoInBackground);
+            showProgressBar.setVisibility(View.INVISIBLE);
+
             String ret = null;
 
 
@@ -271,7 +422,7 @@ public class CurrencyExchangeMain extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Instructions")
 
-                .setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getText(R.string.Ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 }).setView(middle);
@@ -291,10 +442,10 @@ public class CurrencyExchangeMain extends AppCompatActivity {
             EditText inputValue = findViewById(R.id.currencyValueInput);
             String inputValueNum = inputValue.getText().toString();
 
-            EditText inputCurrency = findViewById(R.id.inputCurrency);
+            //inputCurrency = findViewById(R.id.inputCurrency);
             String inputCurrencyString = inputCurrency.getText().toString();
 
-            EditText outputCurrency = findViewById(R.id.outputCurrency);
+            //outputCurrency = findViewById(R.id.outputCurrency);
             String outputCurrencyString = outputCurrency.getText().toString();
 
             String eur="EUR";
@@ -321,7 +472,7 @@ public class CurrencyExchangeMain extends AppCompatActivity {
              */
             Double conversionRate = retrievedInputRate / retrievedOutputRate;
 
-            Double convertedOutput = (Double.parseDouble(inputValueNum) * conversionRate);
+            Double convertedOutput = (Double.parseDouble(inputValueNum) / conversionRate);
 
             /**
              * Outputs values to app screen
@@ -356,7 +507,7 @@ public class CurrencyExchangeMain extends AppCompatActivity {
              * on this page
              */
             case R.id.currency_exchange_page_menu_link:
-                Snackbar sn = Snackbar.make(findViewById(R.id.navigation_toolbar), "You are already on this page.", Snackbar.LENGTH_LONG);
+                Snackbar sn = Snackbar.make(findViewById(R.id.navigation_toolbar), getResources().getText(R.string.snackbar), Snackbar.LENGTH_LONG);
                 //sn.setAction("finish", v->finish());
                 sn.show();
 
@@ -378,6 +529,41 @@ public class CurrencyExchangeMain extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    /**
+     * Deletes exchanges selected from fragment based on their id
+     * @param id
+     */
+    public void deleteMessageId(int id)
+    {
+        Log.e("Delete this message:" , " id="+id);
+        //int deleteID=id-1;
+        int deleteID=id;
+        String idString = String.valueOf(deleteID);
+        db.delete(CurrencyOpenHelper.TABLE_NAME, CurrencyOpenHelper.COL_ID + "=?", new String[] {idString});
+        setResult(PUSHED_DELETE);
+        favouritesArrayList.remove(id);
+        theAdapter.notifyDataSetChanged();
+        //Log.i("ViewContact", "Deleted " + numDeleted + " rows");
+
+    }
+
+    /**
+     * Commits values to shared preferences if activity is paused
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+
+        editor.putString("mySharedPref", inputCurrency.getText().toString());
+        editor2.putString("mySharedPref2", outputCurrency.getText().toString());
+
+        editor.commit();
+        editor2.commit();
+
     }
 }
 

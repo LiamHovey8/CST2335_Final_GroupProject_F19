@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".NewsSaved"></activity>
+        <activity android:name=".NewsArticle" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +22,7 @@
         </activity>
         <activity android:name=".RecipePage" />
         <activity android:name=".NewsPage" />
+        <activity android:name=".EmptyActivity" />
         <activity android:name=".CurrencyExchangeMain" />
         <activity android:name=".CurrencyExchangeFavorites" />
         <activity android:name=".CarChargerDatabaseHelper" />
@@ -27,7 +30,6 @@
         <activity android:name=".CarChargerFavourites" />
         <activity android:name=".CarChargerFinder" />
         <activity android:name=".CarChargingStation" />
-
     </application>
 
 </manifest>
