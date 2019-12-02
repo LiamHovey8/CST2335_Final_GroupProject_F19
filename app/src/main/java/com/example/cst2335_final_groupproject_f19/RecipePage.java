@@ -99,6 +99,8 @@ public class RecipePage extends AppCompatActivity {
                 RecipeQuery newsQuery = new RecipeQuery();
                 progressBar.setVisibility(View.VISIBLE);
                 newsQuery.execute(searchText);
+            }else {
+                alertExample();
             }
         });
         recipeListView.setOnItemClickListener( ( lv, vw, pos, id) ->{
@@ -122,7 +124,10 @@ public class RecipePage extends AppCompatActivity {
             newsQuery.execute("Chicken Breast");
         });
         builder.setNegativeButton(getString(R.string.recipe_negative), (dialog, id) -> {
-            // What to do on Cancel
+            RecipeQuery newsQuery = new RecipeQuery();
+            ProgressBar progressBar=findViewById(R.id.recipe_progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+            newsQuery.execute("Lasagna");
         });
         builder.setView(middle);
 
@@ -189,11 +194,10 @@ public class RecipePage extends AppCompatActivity {
                     String f2f_url=o.getString("f2f_url");
                     String title=o.getString("title");
                     String source_url=o.getString("source_url");
-                    String recipe_id=o.getString("recipe_id");
                     String image_url=o.getString("image_url");
                     double social_rank=o.getDouble("social_rank");
                     String publisher_url=o.getString("publisher_url");
-                    recipeList.add(new Recipe (publisher,f2f_url,title,source_url,recipe_id,image_url,social_rank,publisher_url));
+                    recipeList.add(new Recipe (publisher,f2f_url,title,source_url,image_url,social_rank,publisher_url));
                     int progress = ((i + 1) * 100 /recipeArray.length());
                     publishProgress(progress);
 
