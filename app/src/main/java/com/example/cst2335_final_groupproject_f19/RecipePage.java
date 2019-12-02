@@ -2,6 +2,7 @@ package com.example.cst2335_final_groupproject_f19;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -44,6 +45,9 @@ public class RecipePage extends AppCompatActivity {
     public static final String title = "title";
     public static final String imageURL = "imageURL";
     public static final String webPageURL = "webPageURL";
+    protected SharedPreferences prefs;
+    protected EditText searchEditText;
+    protected SharedPreferences.Editor edit;
     //a copy of the adapter
     MyOwnAdapter recipeAdapter;
     @Override
@@ -75,9 +79,19 @@ public class RecipePage extends AppCompatActivity {
     }
 
 
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        edit.putString("RecipeReserveName", searchEditText.getText().toString());
+        edit.commit();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        prefs = getSharedPreferences("RecipeReserveName", MODE_PRIVATE);
+        edit = prefs.edit();
+        String previous = prefs.getString("RecipeReserveName", "");
+        searchEditText.setText(previous);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list_page);
         Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
