@@ -14,13 +14,19 @@
     <string name="runConversion">Run Conversion</string>
     <string name="showHelp">Show Help</string>
     <string name="changeFavourites">Edit Favourites</string>
-    <string name="favouritesHeader">Favourite Conversions</string>
+    <string name="favouritesHeader">Conversion Examples</string>
     <string name="inputCurrency">Input Currency</string>
     <string name="outputCurrency">Output Currency</string>
     <string name="author">Author: Kathleen Hardy</string>
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
+    <string name="favs">Favourites</string>
+    <string name="addNewFav">Add a new favourite </string>
+    <string name="newFavInputCurr">New favourite input currency: </string>
+    <string name="newFavOutputCurr">New favourite output currency: </string>
+    <string name="convFrom">This is the conversion: </string>
+    <string name="Ok">Okay</string>
 
     <string name="newsSearch">Search Article</string>
     <string name="newsHelp">Help</string>
@@ -31,6 +37,5 @@
     <string name="newsGoToPage">Go to Page</string>
     <string name="newsTitle">Title: </string>
     <string name="newsDescription">Description: </string>
-
 
 </resources>
