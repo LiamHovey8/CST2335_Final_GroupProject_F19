@@ -12,7 +12,7 @@
         />
 
     <TextView
-        android:id="@+id/newsDescript"
+        android:id="@+id/newsAuthor"
         android:text="test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

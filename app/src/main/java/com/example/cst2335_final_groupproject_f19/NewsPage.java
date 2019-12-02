@@ -3,6 +3,8 @@ package com.example.cst2335_final_groupproject_f19;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -51,6 +53,7 @@ public class NewsPage extends AppCompatActivity {
     protected SharedPreferences prefs;
     protected EditText searchEditText;
     protected SharedPreferences.Editor edit;
+    SQLiteDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,14 @@ public class NewsPage extends AppCompatActivity {
         newsList.setOnItemClickListener((lv, vw, pos, id) -> {
             Toast.makeText(NewsPage.this, "You clicked on: " + newsLog.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
+
+
+            Intent goToPage2 = new Intent(NewsPage.this, NewsEmptyActivity.class);
+            goToPage2.putExtra("newsTitle", newsLog.get(pos).getTitle());
+            goToPage2.putExtra("newsDescription", newsLog.get(pos).getDescription());
+            startActivity(goToPage2);
+
+
         });
 
         Button searchButton = findViewById(R.id.newsButton1);
@@ -90,6 +101,31 @@ public class NewsPage extends AppCompatActivity {
         edit = prefs.edit();
         String previous = prefs.getString("NewsReserveName", "");
         searchEditText.setText(previous);
+
+
+        NewsDatabaseHelper dbOpener = new NewsDatabaseHelper(this);
+        db = dbOpener.getWritableDatabase();
+        String [] columns = {NewsDatabaseHelper.COL_ID,
+                NewsDatabaseHelper.COL_NAME,
+                NewsDatabaseHelper.COL_AUTHOR, NewsDatabaseHelper.COL_TITLE,
+                NewsDatabaseHelper.COL_DESCRIPTION,  NewsDatabaseHelper.COL_URL,
+                NewsDatabaseHelper.COL_URL_TO_IMAGE, NewsDatabaseHelper.COL_PUBLISHED_AT,
+                NewsDatabaseHelper.COL_CONTENT
+        };
+        Cursor results = db.query(false, NewsDatabaseHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+        int idColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_ID);
+        int nameColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_NAME);
+        int authorColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_AUTHOR);
+        int titleColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_TITLE);
+        int descriptionColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_DESCRIPTION);
+        int urlColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL);
+        int urlToImageColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL_TO_IMAGE);
+        int publishedAtColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_PUBLISHED_AT);
+        int contentColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_CONTENT);
+
+
+
+
 
     }
 
@@ -155,13 +191,13 @@ public class NewsPage extends AppCompatActivity {
 
             thisRow = getLayoutInflater().inflate(R.layout.news_row_page, null);
             TextView itemTitle = thisRow.findViewById(R.id.newsTitle);
-            TextView itemDescript = thisRow.findViewById(R.id.newsDescript);
+            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
             //TextView itemURL = thisRow.findViewById(R.id.newsURL);
 
 
 
-            itemTitle.setText("Title: " + rowNews.getTitle() + ", ");
-            itemDescript.setText("Description: " + rowNews.getDescription() + " ");
+            itemTitle.setText("Title: " + rowNews.getTitle() + " ");
+            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 
             return thisRow;
