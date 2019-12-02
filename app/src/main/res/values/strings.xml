@@ -20,13 +20,12 @@
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
-    <string name="recipe_positive">Positive</string>
-    <string name="recipe_negative">Negative</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recipe_positive">Chicken Breast</string>
+    <string name="recipe_negative">Lasagna</string>
 
 
-    >>>>>>> 6d75298c7cf426cd86b4b52b68cebe6900e460c6
+
+
+
 
 </resources>

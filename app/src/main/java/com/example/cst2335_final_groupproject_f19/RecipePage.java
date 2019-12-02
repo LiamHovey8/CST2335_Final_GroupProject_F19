@@ -83,16 +83,13 @@ public class RecipePage extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        edit.putString("RecipeReserveName", searchEditText.getText().toString());
+        EditText recipeSearchText=findViewById(R.id.search_recipe_bar);
+        edit.putString("RecipeReserveName", recipeSearchText.getText().toString());
         edit.commit();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        prefs = getSharedPreferences("RecipeReserveName", MODE_PRIVATE);
-        edit = prefs.edit();
-        String previous = prefs.getString("RecipeReserveName", "");
-        searchEditText.setText(previous);
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.recipe_list_page);
         Toolbar tBar = (Toolbar)findViewById(R.id.navigation_toolbar);
         boolean isTablet=findViewById(R.id.recipe_frame_layout)!=null;
@@ -103,6 +100,11 @@ public class RecipePage extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
         //the edit text box for search
         EditText recipeSearchText=findViewById(R.id.search_recipe_bar);
+        prefs = getSharedPreferences("RecipeReserveName", MODE_PRIVATE);
+        edit = prefs.edit();
+        String previous = prefs.getString("RecipeReserveName", "");
+        recipeSearchText.setText(previous);
+        super.onCreate(savedInstanceState);
         //find the list view
         ListView recipeListView =findViewById(R.id.the_recipe_list);
         //use the adapter populate the list
@@ -152,7 +154,7 @@ public class RecipePage extends AppCompatActivity {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
+        builder.setMessage("unfortunately full functionality for this application has been removed you may such for one of the following");
         builder.setPositiveButton(getString(R.string.recipe_positive), (dialog, id) -> {
             RecipeQuery newsQuery = new RecipeQuery();
             ProgressBar progressBar=findViewById(R.id.recipe_progress_bar);
