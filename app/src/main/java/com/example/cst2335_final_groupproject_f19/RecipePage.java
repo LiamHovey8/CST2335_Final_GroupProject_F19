@@ -132,6 +132,7 @@ public class RecipePage extends AppCompatActivity {
         } );
 
     }
+
     private void alertExample() {
         View middle = getLayoutInflater().inflate(R.layout.recipe_dialog_notification, null);
 
