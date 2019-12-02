@@ -3,6 +3,7 @@ package com.example.cst2335_final_groupproject_f19;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,22 @@ public class RecipeFragment extends Fragment {
 
 
         TextView recipeTitle = (TextView)result.findViewById(R.id.recipe_detailed_title);
-        TextView recipeURL = (TextView)result.findViewById(R.id.recipe_detailed_url);
+        Button recipeURL = (Button) result.findViewById(R.id.recipe_detailed_url);
         ImageView recipeImage = (ImageView)result.findViewById(R.id.recipe_image);
         recipeTitle.setText(dataFromActivity.getString(RecipePage.title));
         recipeImage.setContentDescription(dataFromActivity.getString(RecipePage.imageURL));
         recipeURL.setText(dataFromActivity.getString(RecipePage.webPageURL));
+
+
+
+        recipeURL.setOnClickListener(clik ->{
+            Intent webOpen = new Intent(android.content.Intent.ACTION_VIEW);
+            webOpen.setData(Uri.parse(dataFromActivity.getString("webPageURL")));
+            startActivity(webOpen);
+
+        });
+
+
    //     message.setText(dataFromActivity.getString(RecipeFragment.ITEM_SELECTED));
 
         //show the id:
