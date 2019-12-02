@@ -8,52 +8,57 @@
         android:id="@+id/navigation_toolbar"
         />
 
+    <TextView
+        android:id="@+id/newsText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newsTitle"
+        android:textSize="30dp"
 
-    <EditText
-        android:id="@+id/newsEditText"
+        />
+    <TextView
+        android:id="@+id/newsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        />
+
+    <TextView
+        android:id="@+id/newsText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newsDescription"
+        android:textSize="30dp"
+
+        />
+    <TextView
+        android:id="@+id/newsDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+    <Button
+        android:id="@+id/newsGoToPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newsGoToPage"
         />
 
     <Button
-        android:id="@+id/newsButton1"
+        android:id="@+id/newsSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/newsSearch"
-        />
-
-    <Button
-        android:id="@+id/newsButton2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/newsHelp"
-        />
-
-    <Button
-        android:id="@+id/newsButton3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Saved Articles"
+        android:text="Save"
         />
 
 
 
 
-    <ProgressBar
-        android:id="@+id/newsBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        style="?android:attr/progressBarStyleHorizontal"
-        />
 
-    <ListView
-        android:id="@+id/newsList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:transcriptMode = "alwaysScroll"
-        />
+
+
+
 
 
 </LinearLayout>

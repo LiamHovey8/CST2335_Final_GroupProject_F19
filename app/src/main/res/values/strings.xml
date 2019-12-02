@@ -21,4 +21,16 @@
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
+
+    <string name="newsSearch">Search Article</string>
+    <string name="newsHelp">Help</string>
+    <string name="newsDialog1">Author name: Lindsay Deng</string>
+    <string name="newsDialog2">Database Version: 1.0</string>
+    <string name="newsDialog3">Android Studio Version: 3.5.2</string>
+    <string name="newsDialog4">Write in text box and click \'Search\' button</string>
+    <string name="newsGoToPage">Go to Page</string>
+    <string name="newsTitle">Title: </string>
+    <string name="newsDescription">Description: </string>
+
+
 </resources>

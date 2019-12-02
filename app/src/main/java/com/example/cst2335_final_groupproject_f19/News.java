@@ -25,6 +25,10 @@ public class News {
         setContent(content);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getId() {
         return id;
     }

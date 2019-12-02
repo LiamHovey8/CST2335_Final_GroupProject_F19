@@ -3,15 +3,32 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  
-
-    <Button
-        android:id="@+id/newsDialogButton"
-        android:text="test message"
+    <TextView
+        android:id="@+id/newsDialogView"
+        android:text="@string/newsDialog1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         />
 
+    <TextView
+        android:id="@+id/newsDialogView2"
+        android:text="@string/newsDialog2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/newsDialogView3"
+        android:text="@string/newsDialog3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/newsDialogView4"
+        android:text="@string/newsDialog4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>
