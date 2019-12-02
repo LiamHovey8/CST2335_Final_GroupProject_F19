@@ -3,6 +3,8 @@ package com.example.cst2335_final_groupproject_f19;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,10 +24,10 @@ public class NewsArticle extends AppCompatActivity {
         String description = dataFromPreviousPage.getStringExtra("newsDescription");
 
         TextView savedTitle = findViewById(R.id.newsTitle);
-        savedTitle.setText("Title: " + title);
+        savedTitle.setText(title);
 
         TextView savedDescription = findViewById(R.id.newsDescription);
-        savedDescription.setText("Description: " + description);
+        savedDescription.setText(description);
 
         Button gotoURL = findViewById(R.id.goToPage);
 
@@ -36,6 +38,8 @@ public class NewsArticle extends AppCompatActivity {
             startActivity(webOpen);
 
                 });
+
+
 
        
 

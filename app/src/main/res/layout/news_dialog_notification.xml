@@ -5,8 +5,28 @@
 
     <TextView
         android:id="@+id/newsDialogView"
-        android:text="Author name: Lindsay Deng. Database Version: 1.0.
-        Android Studio Version: 3.5.2. How to use: Write in text box and click 'Search' button."
+        android:text="@string/newsDialog1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/newsDialogView2"
+        android:text="@string/newsDialog2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/newsDialogView3"
+        android:text="@string/newsDialog3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/newsDialogView4"
+        android:text="@string/newsDialog4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

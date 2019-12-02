@@ -13,21 +13,24 @@
         android:id="@+id/newsEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         />
 
     <Button
         android:id="@+id/newsButton1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/newsSearch"
         />
 
     <Button
         android:id="@+id/newsButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Help"
+        android:text="@string/newsHelp"
         />
+
+
 
     <ProgressBar
         android:id="@+id/newsBar"

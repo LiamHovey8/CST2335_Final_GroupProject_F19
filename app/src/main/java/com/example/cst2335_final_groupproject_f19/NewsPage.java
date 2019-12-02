@@ -3,6 +3,7 @@ package com.example.cst2335_final_groupproject_f19;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,11 +46,12 @@ public class NewsPage extends AppCompatActivity {
     ProgressBar bar;
     String queryURL = "https://newsapi.org/v2/everything?apiKey=090058f5c8d644e6a082834eca3a4d31&q=";
     String newsURL;
+    SQLiteDatabase db;
 
     protected SharedPreferences prefs;
     protected EditText searchEditText;
     protected SharedPreferences.Editor edit;
-    SQLiteDatabase db;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,6 @@ public class NewsPage extends AppCompatActivity {
         String previous = prefs.getString("NewsReserveName", "");
         searchEditText.setText(previous);
 
-
 //        NewsDatabaseHelper dbOpener = new NewsDatabaseHelper(this);
 //        db = dbOpener.getWritableDatabase();
 //        String [] columns = {NewsDatabaseHelper.COL_ID,
@@ -119,10 +120,6 @@ public class NewsPage extends AppCompatActivity {
 //        int urlToImageColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL_TO_IMAGE);
 //        int publishedAtColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_PUBLISHED_AT);
 //        int contentColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_CONTENT);
-
-
-
-
 
     }
 

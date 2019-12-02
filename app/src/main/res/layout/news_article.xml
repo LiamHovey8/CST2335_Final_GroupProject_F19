@@ -8,13 +8,29 @@
         android:id="@+id/navigation_toolbar"
         />
 
+    <TextView
+        android:id="@+id/newsText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newsTitle"
+        android:textSize="30dp"
 
+        />
     <TextView
         android:id="@+id/newsTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         />
 
+    <TextView
+        android:id="@+id/newsText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/newsDescription"
+        android:textSize="30dp"
+
+        />
     <TextView
         android:id="@+id/newsDescription"
         android:layout_width="match_parent"
@@ -26,7 +42,7 @@
         android:id="@+id/goToPage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go to Page"
+        android:text="@string/newsGoToPage"
         />
 
 
