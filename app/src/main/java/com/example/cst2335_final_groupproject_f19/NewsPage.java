@@ -3,7 +3,6 @@ package com.example.cst2335_final_groupproject_f19;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,9 +29,6 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -78,9 +74,10 @@ public class NewsPage extends AppCompatActivity {
             Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
 
 
-            Intent goToPage2 = new Intent(NewsPage.this, NewsEmptyActivity.class);
+            Intent goToPage2 = new Intent(NewsPage.this, NewsArticle.class);
             goToPage2.putExtra("newsTitle", newsLog.get(pos).getTitle());
             goToPage2.putExtra("newsDescription", newsLog.get(pos).getDescription());
+            goToPage2.putExtra("newsURL", newsLog.get(pos).getUrl());
             startActivity(goToPage2);
 
 
@@ -103,25 +100,25 @@ public class NewsPage extends AppCompatActivity {
         searchEditText.setText(previous);
 
 
-        NewsDatabaseHelper dbOpener = new NewsDatabaseHelper(this);
-        db = dbOpener.getWritableDatabase();
-        String [] columns = {NewsDatabaseHelper.COL_ID,
-                NewsDatabaseHelper.COL_NAME,
-                NewsDatabaseHelper.COL_AUTHOR, NewsDatabaseHelper.COL_TITLE,
-                NewsDatabaseHelper.COL_DESCRIPTION,  NewsDatabaseHelper.COL_URL,
-                NewsDatabaseHelper.COL_URL_TO_IMAGE, NewsDatabaseHelper.COL_PUBLISHED_AT,
-                NewsDatabaseHelper.COL_CONTENT
-        };
-        Cursor results = db.query(false, NewsDatabaseHelper.TABLE_NAME, columns, null, null, null, null, null, null);
-        int idColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_ID);
-        int nameColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_NAME);
-        int authorColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_AUTHOR);
-        int titleColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_TITLE);
-        int descriptionColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_DESCRIPTION);
-        int urlColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL);
-        int urlToImageColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL_TO_IMAGE);
-        int publishedAtColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_PUBLISHED_AT);
-        int contentColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_CONTENT);
+//        NewsDatabaseHelper dbOpener = new NewsDatabaseHelper(this);
+//        db = dbOpener.getWritableDatabase();
+//        String [] columns = {NewsDatabaseHelper.COL_ID,
+//                NewsDatabaseHelper.COL_NAME,
+//                NewsDatabaseHelper.COL_AUTHOR, NewsDatabaseHelper.COL_TITLE,
+//                NewsDatabaseHelper.COL_DESCRIPTION,  NewsDatabaseHelper.COL_URL,
+//                NewsDatabaseHelper.COL_URL_TO_IMAGE, NewsDatabaseHelper.COL_PUBLISHED_AT,
+//                NewsDatabaseHelper.COL_CONTENT
+//        };
+//        Cursor results = db.query(false, NewsDatabaseHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+//        int idColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_ID);
+//        int nameColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_NAME);
+//        int authorColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_AUTHOR);
+//        int titleColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_TITLE);
+//        int descriptionColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_DESCRIPTION);
+//        int urlColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL);
+//        int urlToImageColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL_TO_IMAGE);
+//        int publishedAtColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_PUBLISHED_AT);
+//        int contentColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_CONTENT);
 
 
 

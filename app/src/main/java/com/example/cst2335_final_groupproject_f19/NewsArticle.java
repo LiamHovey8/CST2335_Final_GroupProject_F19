@@ -3,16 +3,18 @@ package com.example.cst2335_final_groupproject_f19;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class NewsEmptyActivity extends AppCompatActivity {
+
+public class NewsArticle extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_empty);
+        setContentView(R.layout.news_article);
 
 
         Intent dataFromPreviousPage = getIntent();
@@ -26,22 +28,16 @@ public class NewsEmptyActivity extends AppCompatActivity {
         savedDescription.setText("Description: " + description);
 
         Button gotoURL = findViewById(R.id.goToPage);
-//        ImageView Button = (ImageView)findViewById(R.id.button);
-//
-//
-//        searchButton.setOnClickListener(clik ->{
-//
-//                });
-//
-//        gotoURL.setOnClickListener(new OnClickListener() {
-//
-//            public void onClick(View v) {
-//                Uri uri = Uri.parse("http://google.com/");
-//
-//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                startActivity(intent);
-//            }
-//        });
+
+
+        gotoURL.setOnClickListener(clik ->{
+            Intent webOpen = new Intent(android.content.Intent.ACTION_VIEW);
+            webOpen.setData(Uri.parse(dataFromPreviousPage.getStringExtra("newsURL")));
+            startActivity(webOpen);
+
+                });
+
+       
 
 
 
