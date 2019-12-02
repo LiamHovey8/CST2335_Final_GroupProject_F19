@@ -37,6 +37,9 @@ public class RecipeFragment extends Fragment {
         TextView recipeTitle = (TextView)result.findViewById(R.id.recipe_detailed_title);
         TextView recipeURL = (TextView)result.findViewById(R.id.recipe_detailed_url);
         ImageView recipeImage = (ImageView)result.findViewById(R.id.recipe_image);
+        recipeTitle.setText(dataFromActivity.getString(RecipePage.title));
+        recipeImage.setContentDescription(dataFromActivity.getString(RecipePage.imageURL));
+        recipeURL.setText(dataFromActivity.getString(RecipePage.webPageURL));
    //     message.setText(dataFromActivity.getString(RecipeFragment.ITEM_SELECTED));
 
         //show the id:

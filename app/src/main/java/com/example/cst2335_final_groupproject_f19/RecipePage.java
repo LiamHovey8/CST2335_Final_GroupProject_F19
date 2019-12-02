@@ -41,6 +41,9 @@ public class RecipePage extends AppCompatActivity {
     private ArrayList<Recipe> recipeList =new ArrayList<>();
     //will be used later don't worry
     public static final int EMPTY_ACTIVITY = 345;
+    public static final String title = "title";
+    public static final String imageURL = "imageURL";
+    public static final String webPageURL = "webPageURL";
     //a copy of the adapter
     MyOwnAdapter recipeAdapter;
     @Override
