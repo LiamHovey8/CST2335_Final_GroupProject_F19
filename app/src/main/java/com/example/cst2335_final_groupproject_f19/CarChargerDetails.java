@@ -1,6 +1,8 @@
 package com.example.cst2335_final_groupproject_f19;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,7 +17,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+/**
+ * Activity to display details regarding a specific Car Charging Station
+ */
 public class CarChargerDetails extends AppCompatActivity {
+    /**
+     * Gets a handle on a database object
+     */
+    SQLiteDatabase carChargerDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +38,8 @@ public class CarChargerDetails extends AppCompatActivity {
         Intent stationDetails = getIntent();
 
         TextView locationText = findViewById(R.id.locationText);
-        locationText.setText("Location: " + stationDetails.getStringExtra("locationName"));
+        String location = stationDetails.getStringExtra("locationName");
+        locationText.setText("Location: " + location);
 
         TextView latitudeText = findViewById(R.id.latitudeText);
         String latitude = stationDetails.getStringExtra("latitude");
@@ -37,10 +47,11 @@ public class CarChargerDetails extends AppCompatActivity {
 
         TextView longitudeText = findViewById(R.id.longitudeText);
         String longitude = stationDetails.getStringExtra("longitude");
-        longitudeText.setText("Logitude: " + longitude);
+        longitudeText.setText("Longitude: " + longitude);
 
         TextView telephoneText = findViewById(R.id.telephoneText);
-        telephoneText.setText("Contact Phone: " + stationDetails.getStringExtra("contactPhone"));
+        String contact = stationDetails.getStringExtra("contactPhone");
+        telephoneText.setText("Contact Phone: " + contact);
 
         Button directionsButton = findViewById(R.id.directionsButton);
         if (directionsButton != null) {
@@ -55,11 +66,30 @@ public class CarChargerDetails extends AppCompatActivity {
             });
         }
 
+        // Gets a database
+        CarChargerDatabaseHelper dbOpener = new CarChargerDatabaseHelper(this);
+        carChargerDB = dbOpener.getWritableDatabase();
+
         Button favouriteButton = findViewById(R.id.favouriteButton);
         if (favouriteButton != null) {
             // On click add to favourites list/database
             favouriteButton.setOnClickListener(v -> {
-                // ADD CODE TO DO STUFF
+                Toast.makeText(this, "Station added to favourites", Toast.LENGTH_LONG).show();
+
+                // Add to the database and get the new ID
+                ContentValues newRowValues = new ContentValues();
+                // Put string location in the LOCATION column
+                newRowValues.put(CarChargerDatabaseHelper.COL_LOCATION, location);
+                newRowValues.put(CarChargerDatabaseHelper.COL_LATITUDE, latitude);
+                newRowValues.put(CarChargerDatabaseHelper.COL_LONGITUDE, longitude);
+                newRowValues.put(CarChargerDatabaseHelper.COL_CONTACT, contact);
+
+                carChargerDB.insert(CarChargerDatabaseHelper.TABLE_NAME, null, newRowValues);
+
+                Intent goToFavourites = new Intent(CarChargerDetails.this, CarChargerFavourites.class);
+
+                // Starts the next activity
+                startActivity(goToFavourites);
             });
         }
     }
@@ -69,7 +99,7 @@ public class CarChargerDetails extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.page_menu, menu);
         return true;
-    }
+    } // Displays the options menu item
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -98,8 +128,11 @@ public class CarChargerDetails extends AppCompatActivity {
                 break;
         }
         return true;
-    }
+    } // What to do when each item on the options menu is selected
 
+    /**
+     * Displays an Alert Dialog the user with instructions for app use
+     */
     public void helpAlert() {
         View middle = getLayoutInflater().inflate(R.layout.car_charger_alert_extra, null);
 
@@ -108,7 +141,6 @@ public class CarChargerDetails extends AppCompatActivity {
                 .setPositiveButton("OK", (dialog, id) -> {
                     // What to do on Accept
                 }).setView(middle);
-
         builder.create().show();
     }
 }

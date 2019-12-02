@@ -1,9 +1,11 @@
 package com.example.cst2335_final_groupproject_f19;
 
+/**
+ * Class for storing a Car Charging Station object
+ */
 public class CarChargingStation {
+    private Long id;
     private String locationName, latitude, longitude, contactPhone;
-
-    //private String locationDistance;
 
     public CarChargingStation() {
 
@@ -13,8 +15,15 @@ public class CarChargingStation {
         this.locationName = locationName;
         this.latitude = latitude;
         this.longitude = longitude;
-        this. contactPhone = contactPhone;
-        //this.locationDistance = locationDistance;
+        this.contactPhone = contactPhone;
+    }
+
+    public CarChargingStation(Long id, String locationName, String latitude, String longitude, String contactPhone) {
+        this.id = id;
+        this.locationName = locationName;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.contactPhone = contactPhone;
     }
 
     public String getLocationName() {
@@ -33,7 +42,7 @@ public class CarChargingStation {
         return contactPhone;
     }
 
-    /*public String getLocationDistance() {
-        return locationDistance;
-    }*/
+    public Long getId() {
+        return id;
+    }
 }

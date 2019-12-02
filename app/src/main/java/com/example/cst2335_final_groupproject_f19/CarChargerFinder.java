@@ -34,17 +34,35 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Main activity for the Electric Car Charging Station Finder app
+ */
 public class CarChargerFinder extends AppCompatActivity {
+    /**
+     * Stores the user's search coordinates from EditText
+     */
     EditText latitudeText, longitudeText;
 
+    /**
+     * Stores info for use in SharedPreferences
+     */
     SharedPreferences.Editor editor;
     SharedPreferences searchCoordinates;
 
+    /**
+     * Stores the activity's ProgressBar object
+     */
     ProgressBar searchProgressBar;
 
+    /**
+     * An ArrayList for saving Car Charging Stations
+     */
     ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
     BaseAdapter carChargerAdapter;
 
+    /**
+     * Stores Strings used to query the external server
+     */
     String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&camelcase=true&maxresults=10&latitude=";
     String carChargerURL;
 
@@ -77,11 +95,13 @@ public class CarChargerFinder extends AppCompatActivity {
 
         searchList.setOnItemClickListener((lv, vw, pos, id) -> {
             Intent goToDetails = new Intent(CarChargerFinder.this, CarChargerDetails.class);
+
             // This puts the selected strings into the next activity --> CarChargerDetails
             goToDetails.putExtra("locationName", carChargerList.get(pos).getLocationName());
             goToDetails.putExtra("latitude", carChargerList.get(pos).getLatitude());
             goToDetails.putExtra("longitude", carChargerList.get(pos).getLongitude());
             goToDetails.putExtra("contactPhone", carChargerList.get(pos).getContactPhone());
+
             // Start the next activity
             startActivity(goToDetails);
         });
@@ -93,6 +113,7 @@ public class CarChargerFinder extends AppCompatActivity {
                 carChargerList.clear();
                 String searchLatitude = latitudeText.getText().toString();
                 String searchLongitude = longitudeText.getText().toString();
+                // Concatenates the URL with the search coordinates input by the user
                 carChargerURL = queryURL + searchLatitude + "&longitude=" + searchLongitude;
                 CarChargerQuery carChargerQuery = new CarChargerQuery();
                 carChargerQuery.execute(carChargerURL);
@@ -105,13 +126,13 @@ public class CarChargerFinder extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.page_menu, menu);
         return true;
-    }
+    } // Displays the options menu item
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.car_charger_page_menu_link:
-                Toast.makeText(this, "You're already in the activity", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You're already in this activity", Toast.LENGTH_LONG).show();
                 break;
             case R.id.recipe_page_menu_link:
                 Intent goToRecipePage = new Intent(CarChargerFinder.this, RecipePage.class);
@@ -134,15 +155,18 @@ public class CarChargerFinder extends AppCompatActivity {
                 break;
         }
         return true;
-    }
+    } // What to do when each item on the options menu is selected
 
+    /**
+     * Displays an Alert Dialog the user with instructions for app use
+     */
     public void helpAlert() {
         View middle = getLayoutInflater().inflate(R.layout.car_charger_alert_extra, null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder
                 .setPositiveButton("OK", (dialog, id) -> {
-                    // What to do on Accept
+                    // Do nothing on Accept (only option in this case)
                 }).setView(middle);
 
         builder.create().show();
@@ -157,13 +181,17 @@ public class CarChargerFinder extends AppCompatActivity {
         editor.putString("Latitude", latitudeText.getText().toString().trim());
         editor.putString("Longitude", longitudeText.getText().toString().trim());
 
+        // Commits the saved strings to the Editor
         editor.commit();
-    }
+    } // Called when the activity is on pause
 
+    /**
+     * Queries an external server for nearby Car Charging Stations using Async Task
+     */
     private class CarChargerQuery extends AsyncTask<String, Integer, String> {
         String locationName, latitude, longitude, contactPhone;
 
-        @Override                       // Type 1
+        @Override                       // Type 1 passed to Async Task
         protected String doInBackground(String... strings) {
             String ret = null;
 
@@ -171,11 +199,13 @@ public class CarChargerFinder extends AppCompatActivity {
                 URL url = new URL(strings[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream inStream = urlConnection.getInputStream();
+                publishProgress(25);
 
                 // Sets up the JSON object parser
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
                 StringBuilder sb = new StringBuilder();
 
+                // Reads the contents of the JSON input and saves results as a string
                 String line = null;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
@@ -184,6 +214,7 @@ public class CarChargerFinder extends AppCompatActivity {
 
                 // Saves the string of results in a JSON array
                 JSONArray jsonArray = new JSONArray(result);
+                publishProgress(50);
 
                 // Iterates over the array by JSON object
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -198,6 +229,7 @@ public class CarChargerFinder extends AppCompatActivity {
                     String lon = jsonObject2.getString("longitude");
                     longitude = lon;
                     String phone = jsonObject2.getString("contactTelephone1");
+                    // Save the Contact Telephone if the result is not stored as "null"
                     if (phone != "null") {
                         contactPhone = phone;
                     } else {
@@ -205,8 +237,10 @@ public class CarChargerFinder extends AppCompatActivity {
                     }
                     // Adds the new message to the ArrayList
                     carChargerList.add(new CarChargingStation(locationName, latitude, longitude, contactPhone));
-                    publishProgress((i + 1) * 100 / jsonArray.length());
+                    //publishProgress((i + 1) * 100 / jsonArray.length());
+                    publishProgress(75);
                 }
+                publishProgress(100);
                 // Catches various exceptions from above Try block
             } catch (MalformedURLException mfe) {
                 ret = "Malformed URL Exception";
@@ -222,7 +256,7 @@ public class CarChargerFinder extends AppCompatActivity {
         @Override
         protected void onPostExecute(String sentFromDoInBackground) {
             super.onPostExecute(sentFromDoInBackground);
-            // Update GUI stuff only
+            // Updates GUI stuff only
             searchProgressBar.setVisibility(View.INVISIBLE);
             ListView searchList = findViewById(R.id.searchList);
             searchList.setAdapter(carChargerAdapter = new CarChargerAdapter());
@@ -231,12 +265,15 @@ public class CarChargerFinder extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            // Update GUI stuff only
+            // Updates GUI stuff only
             searchProgressBar.setVisibility(View.VISIBLE);
             searchProgressBar.setProgress(values[0]);
         }
     }
 
+    /**
+     * Creates an Adapter object that extends from Base Adapter
+     */
     private class CarChargerAdapter extends BaseAdapter {
 
         public int getCount() {
