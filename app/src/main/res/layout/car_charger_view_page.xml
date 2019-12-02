@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/navigation_toolbar"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/carChargerTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:text="@string/car_charger_title"
+        android:textSize="25sp" />
 
     <EditText
-        android:id="@+id/searchInput"
-        android:layout_width="wrap_content"
+        android:id="@+id/searchLatitude"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@id/searchButton"
-        android:hint="Search Here"
-        android:inputType="textMultiLine"
-        android:textSize="20dp" />
+        android:hint="@string/car_charger_latitude"
+        android:inputType="textMultiLine" />
+
+    <EditText
+        android:id="@+id/searchLongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/car_charger_longitude"
+        android:inputType="textMultiLine" />
 
     <Button
         android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:text="Search"
-        android:textSize="20dp" />
+        android:text="@string/car_charger_search" />
 
     <ProgressBar
         android:id="@+id/searchProgress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/navigation_toolbar"
-        android:progress="75" />
+        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    <ListView
+        android:id="@+id/searchList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transcriptMode="alwaysScroll" />
+
+</LinearLayout>

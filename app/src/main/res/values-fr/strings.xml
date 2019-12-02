@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="menu_favourites">Mes préférés</string>
+    <string name="menu_help">Aide de l\'application</string>
+
     <string name="enterAmount">Entrez amount</string>
     <string name="convertedValue">Valeur convertie</string>
     <string name="runConversion">Exécuter</string>
@@ -11,19 +15,28 @@
     <string name="author">Auteure: Kathleen Hardy</string>
     <string name="activityVersion">Activitie Version 2</string>
     <string name="instructions">L\instructions: entrez un value et convert</string>
-    <string name = "recipe_page_name">Recipe Page</string>
-    <string name = "news_page_name">Journal Page</string>
-    <string name = "car_charger_page_name">Automobile Charger Finder Page</string>
-    <string name = "currency_exchange_page_name">Argent Exchange Page</string>
+    <string name="recipe_page_name">Recipe Page</string>
+    <string name="news_page_name">Journal Page</string>
+    <string name="car_charger_page_name">Automobile Charger Finder Page</string>
+    <string name="currency_exchange_page_name">Argent Exchange Page</string>
     <string name="snackbar">Maintenant sur ca page.</string>
+  
+    <string name="car_charger_title">Station de recharge de voiture électrique</string>
+    <string name="car_charger_latitude">Entrez la latitude</string>
+    <string name="car_charger_longitude">Entrez la longitude</string>
+    <string name="car_charger_search">Rechercher des stations à proximité</string>
+    <string name="car_charger_google_maps">Charger les itinéraires dans Google Maps</string>
+    <string name="car_charger_favourites">Favoris cette station</string>
+    <string name="car_charger_delete">Supprimer la station des favoris</string>
+    <string name="car_charger_author">Auteure: Kaylie Wan</string>
+    <string name="car_charger_version">Activitie Version 3.2.1</string>
+    <string name="car_charger_instructions">Aide: Entrez les coordonnées de latitude et de longitude pour rechercher les stations de recharge de voiture électrique à proximité.</string>
+
     <string name="favs">Favoris</string>
     <string name="addNewFav">Cree un favori nouveau </string>
     <string name="newFavInputCurr">Nouveau devise input: </string>
     <string name="newFavOutputCurr">Nouveau devise output: </string>
     <string name="convFrom">Le conversion: </string>
     <string name="Ok">D\'accord</string>
-
-
-
 
 </resources>

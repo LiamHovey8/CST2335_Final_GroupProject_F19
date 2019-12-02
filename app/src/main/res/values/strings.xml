@@ -8,6 +8,8 @@
     <string name="currency_exchange_page_name">Currency Exchange Page</string>
     <string name="recipe_title">Title: </string>
     <string name="search">SEARCH</string>
+    <string name="menu_favourites">My Favourites</string>
+    <string name="menu_help">App Help</string>
 
     <string name="enterAmount">Enter Amount</string>
     <string name="convertedValue">Converted Value</string>
@@ -21,13 +23,20 @@
     <string name="activityVersion">Activity Version 2</string>
     <string name="instructions">Instructions: Type a value into currency input and values into the currency boxes.</string>
     <string name="snackbar">You are already on this page.</string>
+
+    <string name="car_charger_title">Electric Car Charger Finder</string>
+    <string name="car_charger_latitude">Enter Latitude</string>
+    <string name="car_charger_longitude">Enter Longitude</string>
+    <string name="car_charger_search">Search For Nearby Stations</string>
+    <string name="car_charger_google_maps">Load Directions In Google Maps</string>
+    <string name="car_charger_favourites">Favourite This Station</string>
+    <string name="car_charger_delete">Delete Station From Favourites</string>
+    <string name="car_charger_author">Author: Kaylie Wan</string>
+    <string name="car_charger_version">Activity Version 3.2.1</string>
+    <string name="car_charger_instructions">Help: Enter latitude and longitude coordinates to search for nearby electric car charging stations.</string>
+
     <string name="recipe_positive">Chicken Breast</string>
     <string name="recipe_negative">Lasagna</string>
-
-
-
-
-
 
     <string name="favs">Favourites</string>
     <string name="addNewFav">Add a new favourite </string>
@@ -45,6 +54,5 @@
     <string name="newsGoToPage">Go to Page</string>
     <string name="newsTitle">Title: </string>
     <string name="newsDescription">Description: </string>
-
 
 </resources>
