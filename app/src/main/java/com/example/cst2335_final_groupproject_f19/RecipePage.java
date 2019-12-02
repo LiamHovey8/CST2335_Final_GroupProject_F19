@@ -114,6 +114,7 @@ public class RecipePage extends AppCompatActivity {
             recipeInfo.putString("webPageURL",recipeList.get(pos).getF2f_url());
             if(isTablet){
                 RecipeFragment rFragment=new RecipeFragment();
+                rFragment.setArguments(recipeInfo);
                 rFragment.setTablet(true);
                 getSupportFragmentManager()
                         .beginTransaction()
