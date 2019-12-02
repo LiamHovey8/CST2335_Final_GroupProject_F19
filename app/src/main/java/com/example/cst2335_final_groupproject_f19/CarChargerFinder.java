@@ -35,16 +35,18 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class CarChargerFinder extends AppCompatActivity {
-    private EditText latitudeText, longitudeText;
-    private String locationName, latitude, longitude, contactPhone;
+    EditText latitudeText, longitudeText;
 
-    private SharedPreferences.Editor editor;
-    private SharedPreferences searchCoordinates;
+    SharedPreferences.Editor editor;
+    SharedPreferences searchCoordinates;
 
-    private ProgressBar searchProgressBar;
+    ProgressBar searchProgressBar;
 
-    private ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
-    private BaseAdapter carChargerAdapter;
+    ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
+    BaseAdapter carChargerAdapter;
+
+    String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&camelcase=true&maxresults=10&latitude=";
+    String carChargerURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,37 +58,44 @@ public class CarChargerFinder extends AppCompatActivity {
         latitudeText = findViewById(R.id.searchLatitude);
         longitudeText = findViewById(R.id.searchLongitude);
 
-        latitude = latitudeText.getText().toString();
-        longitude = longitudeText.getText().toString();
-
         // Retrieves the saved values from SharedPreferences
         String previousLatitude = searchCoordinates.getString("Latitude", "");
         String previousLongitude = searchCoordinates.getString("Longitude", "");
         latitudeText.setText(previousLatitude);
         longitudeText.setText(previousLongitude);
 
+        // Shows the toolbar at the top of the page
+        Toolbar tBar = findViewById(R.id.navigation_toolbar);
+        setSupportActionBar(tBar);
+
+        // Displays the search progress bar
         searchProgressBar = findViewById(R.id.searchProgress);
 
         // Creates an adapter object and sends it to the ListView
-        ListView theList = findViewById(R.id.searchList);
-        theList.setAdapter(carChargerAdapter = new CarChargerAdapter());
+        ListView searchList = findViewById(R.id.searchList);
+        searchList.setAdapter(carChargerAdapter = new CarChargerAdapter());
 
-//        ListView theList = findViewById(R.id.searchList);
-//        theList.setAdapter(carChargerAdapter = new CarChargerAdapter());
-//        theList.setOnItemClickListener((lv, vw, pos, id) -> {
-//            //alertBox();
-//            Toast.makeText(CarChargerFinder.this,
-//                    "You clicked on: " + pos, Toast.LENGTH_SHORT).show();
-//        });
-
-        Toolbar tBar = findViewById(R.id.navigation_toolbar);
-        setSupportActionBar(tBar);
+        searchList.setOnItemClickListener((lv, vw, pos, id) -> {
+            Intent goToDetails = new Intent(CarChargerFinder.this, CarChargerDetails.class);
+            // This puts the selected strings into the next activity --> CarChargerDetails
+            goToDetails.putExtra("locationName", carChargerList.get(pos).getLocationName());
+            goToDetails.putExtra("latitude", carChargerList.get(pos).getLatitude());
+            goToDetails.putExtra("longitude", carChargerList.get(pos).getLongitude());
+            goToDetails.putExtra("contactPhone", carChargerList.get(pos).getContactPhone());
+            // Start the next activity
+            startActivity(goToDetails);
+        });
 
         Button searchButton = findViewById(R.id.searchButton);
         if (searchButton != null) {
             // On click go to next page --> ChatRoomActivity
             searchButton.setOnClickListener(v -> {
-                new CarChargerQuery().execute();
+                carChargerList.clear();
+                String searchLatitude = latitudeText.getText().toString();
+                String searchLongitude = longitudeText.getText().toString();
+                carChargerURL = queryURL + searchLatitude + "&longitude=" + searchLongitude;
+                CarChargerQuery carChargerQuery = new CarChargerQuery();
+                carChargerQuery.execute(carChargerURL);
             });
         }
     }
@@ -102,7 +111,7 @@ public class CarChargerFinder extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.car_charger_page_menu_link:
-                Toast.makeText(this, "You're already on this page", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You're already in the activity", Toast.LENGTH_LONG).show();
                 break;
             case R.id.recipe_page_menu_link:
                 Intent goToRecipePage = new Intent(CarChargerFinder.this, RecipePage.class);
@@ -152,20 +161,18 @@ public class CarChargerFinder extends AppCompatActivity {
     }
 
     private class CarChargerQuery extends AsyncTask<String, Integer, String> {
-        //String locationName, contactPhone;
+        String locationName, latitude, longitude, contactPhone;
 
-        @Override                       //Type 1
+        @Override                       // Type 1
         protected String doInBackground(String... strings) {
             String ret = null;
-            String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&camelcase=true&maxresults=10&latitude=" + latitude + "&longitude=" + longitude;
 
-            try {       // Connect to the server:
-                URL url = new URL(queryURL);
+            try {       // Connects to the server using the internet
+                URL url = new URL(strings[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream inStream = urlConnection.getInputStream();
 
-                // Set up the JSON object parser:
-                // json is UTF-8 by default
+                // Sets up the JSON object parser
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
                 StringBuilder sb = new StringBuilder();
 
@@ -175,55 +182,32 @@ public class CarChargerFinder extends AppCompatActivity {
                 }
                 String result = sb.toString();
 
+                // Saves the string of results in a JSON array
                 JSONArray jsonArray = new JSONArray(result);
 
+                // Iterates over the array by JSON object
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-                    String tempName = jsonObject1.getString("addressInfo");
-                    if (tempName.equals("addressInfo")) {
-                        JSONObject jsonObject2 = new JSONObject("addressInfo");
-                        String title = jsonObject2.getString("title");
-                        locationName = title;
-                        publishProgress(25);
-                        String lat = jsonObject2.getString("latitude");
-                        latitude = lat;
-                        publishProgress(50);
-                        String lon = jsonObject2.getString("longitude");
-                        longitude = lon;
-                        publishProgress(75);
-                        String phone = jsonObject2.getString("contactTelephone");
-                        if (phone != null) {
-                            contactPhone = phone;
-                            publishProgress(100);
-                        } else {
-                            contactPhone = "N/A";
-                            publishProgress(100);
-                        }
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    // Accesses the "addressInfo" object within the 1st JSON object
+                    JSONObject jsonObject2 = jsonObject1.getJSONObject("addressInfo");
+                    // Below strings are accesses from within the inner JSON object
+                    String title = jsonObject2.getString("title");
+                    locationName = title;
+                    String lat = jsonObject2.getString("latitude");
+                    latitude = lat;
+                    String lon = jsonObject2.getString("longitude");
+                    longitude = lon;
+                    String phone = jsonObject2.getString("contactTelephone1");
+                    if (phone != "null") {
+                        contactPhone = phone;
+                    } else {
+                        contactPhone = "N/A";
                     }
+                    // Adds the new message to the ArrayList
+                    carChargerList.add(new CarChargingStation(locationName, latitude, longitude, contactPhone));
+                    publishProgress((i + 1) * 100 / jsonArray.length());
                 }
-
-//                JSONObject jObject = new JSONObject(result);
-//
-//                jObject.getJSONObject("addressInfo");
-//                String title = jObject.getString("title");
-//                locationName = title;
-//                publishProgress(25);
-//                String lat = jObject.getString("latitude");
-//                latitude = lat;
-//                publishProgress(50);
-//                String lon = jObject.getString("longitude");
-//                longitude = lon;
-//                publishProgress(75);
-//                String phone = jObject.getString("contactTelephone");
-//                if (phone != null) {
-//                    contactPhone = phone;
-//                    publishProgress(100);
-//                } else {
-//                    contactPhone = "N/A";
-//                    publishProgress(100);
-//                }
-
-
+                // Catches various exceptions from above Try block
             } catch (MalformedURLException mfe) {
                 ret = "Malformed URL Exception";
             } catch (IOException ioe) {
@@ -231,25 +215,23 @@ public class CarChargerFinder extends AppCompatActivity {
             } catch (JSONException jse) {
                 ret = "JSON Exception";
             }
-            //What is returned here will be passed as a parameter to onPostExecute:
+            // What is returned here will be passed as a parameter to onPostExecute
             return ret;
         }
 
         @Override
         protected void onPostExecute(String sentFromDoInBackground) {
             super.onPostExecute(sentFromDoInBackground);
-            // Update GUI stuff only:
+            // Update GUI stuff only
             searchProgressBar.setVisibility(View.INVISIBLE);
-            // Add the new message to the list
-            carChargerList.add(new CarChargingStation(locationName, latitude, longitude, contactPhone));
-            // Update the listView
-            carChargerAdapter.notifyDataSetChanged();
+            ListView searchList = findViewById(R.id.searchList);
+            searchList.setAdapter(carChargerAdapter = new CarChargerAdapter());
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            // Update GUI stuff only:
+            // Update GUI stuff only
             searchProgressBar.setVisibility(View.VISIBLE);
             searchProgressBar.setProgress(values[0]);
         }
@@ -259,15 +241,15 @@ public class CarChargerFinder extends AppCompatActivity {
 
         public int getCount() {
             return carChargerList.size();
-        } //This function tells how many objects to show
+        } // This function tells how many objects to show
 
         public CarChargingStation getItem(int position) {
             return carChargerList.get(position);
-        }  //This returns the string at position p
+        }  // This returns the string at a given position
 
         public long getItemId(int position) {
             return position;
-        } //This returns the database id of the item at position p
+        } // This returns the database id of the item at given position
 
         public View getView(int position, View recycled, ViewGroup parent) {
             View thisRow = recycled;

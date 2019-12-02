@@ -12,14 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CarChargerFavourites extends AppCompatActivity {
-    ArrayList<String> carChargerList = new ArrayList<>(Arrays.asList("Item 1", "Item 2", "Item 3"));
+    ArrayList<String> carChargerList = new ArrayList<>();
     BaseAdapter carChargerAdapter;
 
     @Override
@@ -28,8 +28,19 @@ public class CarChargerFavourites extends AppCompatActivity {
         setContentView(R.layout.car_charger_favourites_list);
 
         // Create an adapter object and send it to the Favourites ListView
-        ListView favouritesList = findViewById(R.id.searchList);
+        ListView favouritesList = findViewById(R.id.favouritesList);
         favouritesList.setAdapter(carChargerAdapter = new CarChargerAdapter());
+
+        favouritesList.setOnItemClickListener((lv, vw, pos, id) -> {
+            Intent goToDetails = new Intent(CarChargerFavourites.this, CarChargerDetails.class);
+            // This puts the selected strings into the next activity --> CarChargerDetails
+//            goToDetails.putExtra("locationName", carChargerList.get(pos).getLocationName());
+//            goToDetails.putExtra("latitude", carChargerList.get(pos).getLatitude());
+//            goToDetails.putExtra("longitude", carChargerList.get(pos).getLongitude());
+//            goToDetails.putExtra("contactPhone", carChargerList.get(pos).getContactPhone());
+            // Start the next activity
+            startActivity(goToDetails);
+        });
 
         Toolbar tBar = findViewById(R.id.navigation_toolbar);
         setSupportActionBar(tBar);
@@ -46,7 +57,7 @@ public class CarChargerFavourites extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.car_charger_page_menu_link:
-                Toast.makeText(this, "You're already on this page!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You're already in the activity", Toast.LENGTH_LONG).show();
                 break;
             case R.id.recipe_page_menu_link:
                 Intent goToRecipePage = new Intent(CarChargerFavourites.this, RecipePage.class);
@@ -60,8 +71,25 @@ public class CarChargerFavourites extends AppCompatActivity {
                 Intent goToNewsPage = new Intent(CarChargerFavourites.this, NewsPage.class);
                 CarChargerFavourites.this.startActivityForResult(goToNewsPage, 10);
                 break;
+            case R.id.go_to_app_favourites:
+                break;
+            case R.id.go_to_app_help:
+                helpAlert();
+                break;
         }
         return true;
+    }
+
+    public void helpAlert() {
+        View middle = getLayoutInflater().inflate(R.layout.car_charger_alert_extra, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setPositiveButton("OK", (dialog, id) -> {
+                    // What to do on Accept
+                }).setView(middle);
+
+        builder.create().show();
     }
 
     private class CarChargerAdapter extends BaseAdapter {
@@ -74,18 +102,19 @@ public class CarChargerFavourites extends AppCompatActivity {
             return carChargerList.get(position);
         }  //This returns the string at position p
 
-        public long getItemId(int p) {
-            return p;
+        public long getItemId(int position) {
+            return position;
         } //This returns the database id of the item at position p
 
-        public View getView(int p, View recycled, ViewGroup parent) {
+        public View getView(int position, View recycled, ViewGroup parent) {
             View thisRow = recycled;
 
             if (recycled == null)
                 thisRow = getLayoutInflater().inflate(R.layout.car_charger_list_row, null);
 
-            TextView numberText = thisRow.findViewById(R.id.locationField);
-            numberText.setText("Result #: " + p + ", ");
+            TextView itemText = thisRow.findViewById(R.id.locationField);
+            //CarChargingStation thisChargingStation = getItem(position);
+            //itemText.setText(thisChargingStation.getLocationName());
 
             return thisRow;
         }
