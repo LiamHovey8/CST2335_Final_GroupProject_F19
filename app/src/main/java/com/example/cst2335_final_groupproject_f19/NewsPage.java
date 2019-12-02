@@ -46,7 +46,6 @@ public class NewsPage extends AppCompatActivity {
     ProgressBar bar;
     String queryURL = "https://newsapi.org/v2/everything?apiKey=090058f5c8d644e6a082834eca3a4d31&q=";
     String newsURL;
-    SQLiteDatabase db;
 
     protected SharedPreferences prefs;
     protected EditText searchEditText;
@@ -83,6 +82,13 @@ public class NewsPage extends AppCompatActivity {
             startActivity(goToPage2);
 
 
+//            Intent goToPageSaved = new Intent(NewsPage.this, NewsSaved.class);
+//            goToPageSaved.putExtra("newsTitle", newsLog.get(pos).getTitle());
+//            goToPageSaved.putExtra("newsDescription", newsLog.get(pos).getDescription());
+//            goToPageSaved.putExtra("newsURL", newsLog.get(pos).getUrl());
+//            startActivity(goToPageSaved);
+
+
         });
 
         Button searchButton = findViewById(R.id.newsButton1);
@@ -101,25 +107,15 @@ public class NewsPage extends AppCompatActivity {
         String previous = prefs.getString("NewsReserveName", "");
         searchEditText.setText(previous);
 
-//        NewsDatabaseHelper dbOpener = new NewsDatabaseHelper(this);
-//        db = dbOpener.getWritableDatabase();
-//        String [] columns = {NewsDatabaseHelper.COL_ID,
-//                NewsDatabaseHelper.COL_NAME,
-//                NewsDatabaseHelper.COL_AUTHOR, NewsDatabaseHelper.COL_TITLE,
-//                NewsDatabaseHelper.COL_DESCRIPTION,  NewsDatabaseHelper.COL_URL,
-//                NewsDatabaseHelper.COL_URL_TO_IMAGE, NewsDatabaseHelper.COL_PUBLISHED_AT,
-//                NewsDatabaseHelper.COL_CONTENT
-//        };
-//        Cursor results = db.query(false, NewsDatabaseHelper.TABLE_NAME, columns, null, null, null, null, null, null);
-//        int idColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_ID);
-//        int nameColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_NAME);
-//        int authorColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_AUTHOR);
-//        int titleColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_TITLE);
-//        int descriptionColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_DESCRIPTION);
-//        int urlColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL);
-//        int urlToImageColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_URL_TO_IMAGE);
-//        int publishedAtColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_PUBLISHED_AT);
-//        int contentColIndex = results.getColumnIndex(NewsDatabaseHelper.COL_CONTENT);
+
+        Button saveButton = findViewById(R.id.newsButton3);
+        saveButton.setOnClickListener(clik ->{
+            Intent goToPage3 = new Intent(NewsPage.this, NewsSaved.class);
+            startActivity(goToPage3);
+
+        });
+
+
 
     }
 
