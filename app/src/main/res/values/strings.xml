@@ -35,6 +35,9 @@
     <string name="car_charger_version">Activity Version 3.2.1</string>
     <string name="car_charger_instructions">Help: Enter latitude and longitude coordinates to search for nearby electric car charging stations.</string>
 
+    <string name="recipe_positive">Chicken Breast</string>
+    <string name="recipe_negative">Lasagna</string>
+
     <string name="favs">Favourites</string>
     <string name="addNewFav">Add a new favourite </string>
     <string name="newFavInputCurr">New favourite input currency: </string>
