@@ -29,14 +29,19 @@ public class CarChargerFavourites extends AppCompatActivity {
     /**
      * An ArrayList for saving Car Charging Stations
      */
-    ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
-    BaseAdapter carChargerAdapter;
+    private ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
+    private BaseAdapter carChargerAdapter;
 
     /**
      * Gets a handle on a database object
      */
-    SQLiteDatabase carChargerDB;
+    private SQLiteDatabase carChargerDB;
 
+    /**
+     * Creates the current activity
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,19 +88,31 @@ public class CarChargerFavourites extends AppCompatActivity {
         });
     }
 
+    /**
+     * Displays the options menu item
+     *
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.page_menu, menu);
         return true;
-    } // Displays the options menu item
+    }
 
+    /**
+     * What to do when each item on the options menu is selected
+     *
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.car_charger_page_menu_link:
-                Toast.makeText(this, "You're already in this activity", Toast.LENGTH_LONG).show();
-                break;
+                Intent goToCarCharger = new Intent(CarChargerFavourites.this, CarChargerFinder.class);
+                CarChargerFavourites.this.startActivityForResult(goToCarCharger, 10);                break;
             case R.id.recipe_page_menu_link:
                 Intent goToRecipePage = new Intent(CarChargerFavourites.this, RecipePage.class);
                 CarChargerFavourites.this.startActivityForResult(goToRecipePage, 10);
@@ -115,7 +132,7 @@ public class CarChargerFavourites extends AppCompatActivity {
                 break;
         }
         return true;
-    } // What to do when each item on the options menu is selected
+    }
 
     /**
      * Displays an Alert Dialog the user with instructions for app use
@@ -134,6 +151,9 @@ public class CarChargerFavourites extends AppCompatActivity {
 
     /**
      * Deletes a given Car Charging Station from both the database and ArrayList
+     *
+     * @param position
+     * @param id
      */
     public void deleteMessageId(int position, long id) {
         carChargerDB.delete(CarChargerDatabaseHelper.TABLE_NAME, CarChargerDatabaseHelper.COL_ID + "=?", new String[]{Long.toString(id)});

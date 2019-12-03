@@ -9,6 +9,9 @@ import android.util.Log;
  * Class to assist in opening a database for the Electric Car Charging Station Finder app
  */
 public class CarChargerDatabaseHelper extends SQLiteOpenHelper {
+    /**
+     * Variables for the various components of the database
+     */
     public static final String DATABASE_NAME = "CarChargerDatabase";
     public static final int VERSION_NUM = 1;
     public static final String TABLE_NAME = "ChargingStations";
@@ -18,9 +21,10 @@ public class CarChargerDatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_LONGITUDE = "LONGITUDE";
     public static final String COL_CONTACT = "CONTACT";
 
-
     /**
      * Class constructor method
+     *
+     * @param ctx
      */
     public CarChargerDatabaseHelper(Activity ctx) {
         // The factory parameter should be null, unless you know a lot about Database Memory management
@@ -29,6 +33,8 @@ public class CarChargerDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Creates a new database object
+     *
+     * @param db
      */
     public void onCreate(SQLiteDatabase db) {
         // Make sure to put spaces between SQL statements and Java strings
@@ -37,7 +43,11 @@ public class CarChargerDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Method is called in case of database version downgrade
+     * Method is called in case of database version upgrade
+     *
+     * @param db
+     * @param oldVersion
+     * @param newVersion
      */
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("Database upgrade", "Old version:" + oldVersion + " newVersion:" + newVersion);
@@ -51,6 +61,10 @@ public class CarChargerDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Method is called in case of database version downgrade
+     *
+     * @param db
+     * @param oldVersion
+     * @param newVersion
      */
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("Database downgrade", "Old version:" + oldVersion + " newVersion:" + newVersion);

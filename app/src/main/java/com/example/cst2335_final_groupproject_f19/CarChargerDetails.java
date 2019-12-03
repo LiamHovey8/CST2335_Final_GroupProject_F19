@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 /**
- * Activity to display details regarding a specific Car Charging Station
+ * Activity to display details regarding a specific Car Charging Station ***NOT IN USE***
  */
 public class CarChargerDetails extends AppCompatActivity {
     /**
@@ -26,6 +26,11 @@ public class CarChargerDetails extends AppCompatActivity {
      */
     SQLiteDatabase carChargerDB;
 
+    /**
+     * Creates the current activity
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,19 +43,19 @@ public class CarChargerDetails extends AppCompatActivity {
         Intent stationDetails = getIntent();
 
         TextView locationText = findViewById(R.id.locationText);
-        String location = stationDetails.getStringExtra("locationName");
+        String location = stationDetails.getStringExtra("LOCATION");
         locationText.setText("Location: " + location);
 
         TextView latitudeText = findViewById(R.id.latitudeText);
-        String latitude = stationDetails.getStringExtra("latitude");
+        String latitude = stationDetails.getStringExtra("LATITUDE");
         latitudeText.setText("Latitude: " + latitude);
 
         TextView longitudeText = findViewById(R.id.longitudeText);
-        String longitude = stationDetails.getStringExtra("longitude");
+        String longitude = stationDetails.getStringExtra("LONGITUDE");
         longitudeText.setText("Longitude: " + longitude);
 
         TextView telephoneText = findViewById(R.id.telephoneText);
-        String contact = stationDetails.getStringExtra("contactPhone");
+        String contact = stationDetails.getStringExtra("CONTACT");
         telephoneText.setText("Contact Phone: " + contact);
 
         Button directionsButton = findViewById(R.id.directionsButton);
@@ -94,13 +99,25 @@ public class CarChargerDetails extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays the options menu item
+     *
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.page_menu, menu);
         return true;
-    } // Displays the options menu item
+    }
 
+    /**
+     * What to do when each item on the options menu is selected
+     *
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -128,7 +145,7 @@ public class CarChargerDetails extends AppCompatActivity {
                 break;
         }
         return true;
-    } // What to do when each item on the options menu is selected
+    }
 
     /**
      * Displays an Alert Dialog the user with instructions for app use

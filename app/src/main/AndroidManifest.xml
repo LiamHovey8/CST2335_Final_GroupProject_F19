@@ -30,6 +30,8 @@
         <activity android:name=".CarChargerDetails" />
         <activity android:name=".CarChargerFavourites" />
         <activity android:name=".CarChargerFinder" />
+        <activity android:name=".CarChargerFragment" />
+        <activity android:name=".CarChargerFrame" />
         <activity android:name=".CarChargingStation" />
     </application>
 
