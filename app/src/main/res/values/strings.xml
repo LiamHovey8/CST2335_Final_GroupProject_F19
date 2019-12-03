@@ -54,5 +54,9 @@
     <string name="newsGoToPage">Go to Page</string>
     <string name="newsTitle">Title: </string>
     <string name="newsDescription">Description: </string>
+    <string name="newsSavedArticles">Saved Articles </string>
+    <string name="newsSave">Save </string>
+
+
 
 </resources>
