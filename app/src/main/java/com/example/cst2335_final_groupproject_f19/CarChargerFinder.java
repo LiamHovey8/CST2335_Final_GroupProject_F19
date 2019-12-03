@@ -39,26 +39,34 @@ import java.util.ArrayList;
  */
 public class CarChargerFinder extends AppCompatActivity {
     /**
+     * Static class variables to pass data between activities
+     */
+    public static final String ITEM_LOCATION = "LOCATION";
+    public static final String ITEM_LATITUDE = "LATITUDE";
+    public static final String ITEM_LONGITUDE = "LONGITUDE";
+    public static final String ITEM_CONTACT = "CONTACT";
+    public static final int DETAIL_ACTIVITY = 345;
+    /**
      * Stores the user's search coordinates from EditText
      */
-    EditText latitudeText, longitudeText;
+    private EditText latitudeText, longitudeText;
 
     /**
      * Stores info for use in SharedPreferences
      */
-    SharedPreferences.Editor editor;
-    SharedPreferences searchCoordinates;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences searchCoordinates;
 
     /**
      * Stores the activity's ProgressBar object
      */
-    ProgressBar searchProgressBar;
+    private ProgressBar searchProgressBar;
 
     /**
      * An ArrayList for saving Car Charging Stations
      */
-    ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
-    BaseAdapter carChargerAdapter;
+    private ArrayList<CarChargingStation> carChargerList = new ArrayList<>();
+    protected BaseAdapter carChargerAdapter;
 
     /**
      * Stores Strings used to query the external server
@@ -66,6 +74,10 @@ public class CarChargerFinder extends AppCompatActivity {
     String queryURL = "https://api.openchargemap.io/v3/poi/?output=json&countrycode=CA&camelcase=true&maxresults=10&latitude=";
     String carChargerURL;
 
+    /**
+     * Creates the current activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,17 +105,32 @@ public class CarChargerFinder extends AppCompatActivity {
         ListView searchList = findViewById(R.id.searchList);
         searchList.setAdapter(carChargerAdapter = new CarChargerAdapter());
 
-        searchList.setOnItemClickListener((lv, vw, pos, id) -> {
-            Intent goToDetails = new Intent(CarChargerFinder.this, CarChargerDetails.class);
+        //check if the FrameLayout is loaded
+        boolean isTablet = findViewById(R.id.carChargerFragment) != null;
+
+        searchList.setOnItemClickListener((list, item, position, id) -> {
+            Bundle dataToPass = new Bundle();
 
             // This puts the selected strings into the next activity --> CarChargerDetails
-            goToDetails.putExtra("locationName", carChargerList.get(pos).getLocationName());
-            goToDetails.putExtra("latitude", carChargerList.get(pos).getLatitude());
-            goToDetails.putExtra("longitude", carChargerList.get(pos).getLongitude());
-            goToDetails.putExtra("contactPhone", carChargerList.get(pos).getContactPhone());
+            dataToPass.putString("LOCATION", carChargerList.get(position).getLocationName());
+            dataToPass.putString("LATITUDE", carChargerList.get(position).getLatitude());
+            dataToPass.putString("LONGITUDE", carChargerList.get(position).getLongitude());
+            dataToPass.putString("CONTACT", carChargerList.get(position).getContactPhone());
 
-            // Start the next activity
-            startActivity(goToDetails);
+            if (isTablet) {
+                CarChargerFragment dFragment = new CarChargerFragment(); // Add a DetailFragment
+                dFragment.setArguments(dataToPass); // Passes it a bundle for information
+                dFragment.setTablet(true);  // Tells the fragment if it's running on a tablet or not
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.carChargerFragment, dFragment) // Adds the fragment in FrameLayout
+                        .commit(); // Actually loads the fragment
+            } else // isPhone
+            {
+                Intent goToDetails = new Intent(CarChargerFinder.this, CarChargerFrame.class);
+                goToDetails.putExtras(dataToPass); // Sends data to next activity
+                startActivityForResult(goToDetails, DETAIL_ACTIVITY); // Makes the transition
+            }
         });
 
         Button searchButton = findViewById(R.id.searchButton);
@@ -121,13 +148,23 @@ public class CarChargerFinder extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays the options menu item
+     * @param menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.page_menu, menu);
         return true;
-    } // Displays the options menu item
+    }
 
+    /**
+     * What to do when each item on the options menu is selected
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -155,7 +192,7 @@ public class CarChargerFinder extends AppCompatActivity {
                 break;
         }
         return true;
-    } // What to do when each item on the options menu is selected
+    }
 
     /**
      * Displays an Alert Dialog the user with instructions for app use
@@ -172,6 +209,9 @@ public class CarChargerFinder extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * Called when the activity is on pause
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -183,7 +223,7 @@ public class CarChargerFinder extends AppCompatActivity {
 
         // Commits the saved strings to the Editor
         editor.commit();
-    } // Called when the activity is on pause
+    }
 
     /**
      * Queries an external server for nearby Car Charging Stations using Async Task
