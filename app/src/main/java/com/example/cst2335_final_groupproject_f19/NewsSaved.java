@@ -66,9 +66,8 @@ public class NewsSaved extends AppCompatActivity {
 
         while(results.moveToNext())
         {
-
-            String _title = results.getString(titleColIndex);
             long _id = results.getLong(idColIndex);
+            String _title = results.getString(titleColIndex);
             String _author = results.getString(authorColIndex);
 
             newsLog.add(new News(_id, _title, _author));
@@ -150,13 +149,13 @@ public class NewsSaved extends AppCompatActivity {
 
             thisRow = getLayoutInflater().inflate(R.layout.news_row_page, null);
             TextView itemTitle = thisRow.findViewById(R.id.newsTitle);
-            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
+//            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
             //TextView itemURL = thisRow.findViewById(R.id.newsURL);
 
 
 
             itemTitle.setText("Title: " + rowNews.getTitle() + " ");
-            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
+//            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 
             return thisRow;

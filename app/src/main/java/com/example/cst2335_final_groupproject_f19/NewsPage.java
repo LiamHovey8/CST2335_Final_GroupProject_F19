@@ -1,4 +1,8 @@
 package com.example.cst2335_final_groupproject_f19;
+/**
+ * Main page with to search and save a news article
+ * Author: Lindsay Deng
+ */
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,6 +43,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class NewsPage extends AppCompatActivity {
     MyListAdapter newsAdapter;
     ArrayList<News> newsLog = new ArrayList();
@@ -71,7 +78,7 @@ public class NewsPage extends AppCompatActivity {
 
         newsList.setOnItemClickListener((lv, vw, pos, id) -> {
             Toast.makeText(NewsPage.this, "You clicked on: " + newsLog.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
-            Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
+//            Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
 
 
             Intent goToPage2 = new Intent(NewsPage.this, NewsArticle.class);
@@ -173,13 +180,13 @@ public class NewsPage extends AppCompatActivity {
 
             thisRow = getLayoutInflater().inflate(R.layout.news_row_page, null);
             TextView itemTitle = thisRow.findViewById(R.id.newsTitle);
-            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
+//            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
             //TextView itemURL = thisRow.findViewById(R.id.newsURL);
 
 
 
             itemTitle.setText("Title: " + rowNews.getTitle() + " ");
-            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
+//            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 
             return thisRow;
