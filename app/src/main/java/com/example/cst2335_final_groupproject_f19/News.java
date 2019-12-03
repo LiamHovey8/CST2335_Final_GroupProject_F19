@@ -2,7 +2,7 @@ package com.example.cst2335_final_groupproject_f19;
 
 public class News {
 
-    private String id;
+    private long id;
     private String name;
     private String author;
     private String title;
@@ -13,8 +13,15 @@ public class News {
     private String content;
 
     News (){}
-    News (String id, String name, String author, String title, String description, String url, String urlToImage, String publishedAt, String content) {
+    News (long id, String title, String author) {
         setId(id);
+        setTitle(title);
+        setDescription(author);
+
+    }
+
+    News (String name, String author, String title, String description, String url, String urlToImage, String publishedAt, String content) {
+
         setName(name);
         setAuthor(author);
         setTitle(title);
@@ -25,11 +32,12 @@ public class News {
         setContent(content);
     }
 
+
     /**
      *
      * @return
      */
-    public String getId() {
+    public long getId() {
         return id;
     }
 
@@ -65,7 +73,7 @@ public class News {
         return content;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

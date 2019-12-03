@@ -3,8 +3,7 @@ package com.example.cst2335_final_groupproject_f19;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -80,13 +79,6 @@ public class NewsPage extends AppCompatActivity {
             goToPage2.putExtra("newsDescription", newsLog.get(pos).getDescription());
             goToPage2.putExtra("newsURL", newsLog.get(pos).getUrl());
             startActivity(goToPage2);
-
-
-//            Intent goToPageSaved = new Intent(NewsPage.this, NewsSaved.class);
-//            goToPageSaved.putExtra("newsTitle", newsLog.get(pos).getTitle());
-//            goToPageSaved.putExtra("newsDescription", newsLog.get(pos).getDescription());
-//            goToPageSaved.putExtra("newsURL", newsLog.get(pos).getUrl());
-//            startActivity(goToPageSaved);
 
 
         });
@@ -226,7 +218,7 @@ public class NewsPage extends AppCompatActivity {
 
             try {       // Connect to the server:
                 URL url = new URL(strings[0]);
-                //URL UVURL = new URL(queryUV);
+
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream inStream = urlConnection.getInputStream();
 
@@ -254,7 +246,7 @@ public class NewsPage extends AppCompatActivity {
                     String urlToImage = object.getString("urlToImage");
                     String publishedAt = object.getString("publishedAt");
                     String content = object.getString("content");
-                    newsLog.add(new News (id, name, author, title, description, jsonURL, urlToImage, publishedAt, content));
+                    newsLog.add(new News ( name, author, title, description, jsonURL, urlToImage, publishedAt, content));
                     int progress = ((i + 1) * 100 /newsArray.length());
                     publishProgress(progress);
 
