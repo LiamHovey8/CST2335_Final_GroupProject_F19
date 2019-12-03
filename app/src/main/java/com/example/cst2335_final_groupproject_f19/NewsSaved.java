@@ -202,7 +202,7 @@ public class NewsSaved extends AppCompatActivity {
 
 
 
-            itemTitle.setText("Title: " + rowNews.getTitle() + " ");
+            itemTitle.setText(rowNews.getTitle() + " ");
 //            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 

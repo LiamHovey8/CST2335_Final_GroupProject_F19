@@ -225,7 +225,7 @@ public class NewsPage extends AppCompatActivity {
 
 
 
-            itemTitle.setText("Title: " + rowNews.getTitle() + " ");
+            itemTitle.setText(rowNews.getTitle() + " ");
 //            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 
@@ -264,7 +264,7 @@ public class NewsPage extends AppCompatActivity {
         /**
          * connect to web pages using URL and obtain JSON objects
          * @param strings
-         * @return
+         * @return strings pulled from JSON objects
          */
         @Override
         protected String doInBackground(String... strings) {
