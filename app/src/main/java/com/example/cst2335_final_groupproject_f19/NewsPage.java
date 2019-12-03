@@ -1,4 +1,8 @@
 package com.example.cst2335_final_groupproject_f19;
+/**
+ * Main page with to search and save a news article
+ * Author: Lindsay Deng
+ */
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,6 +43,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Main page that searches article and go to other pages
+ */
 public class NewsPage extends AppCompatActivity {
     MyListAdapter newsAdapter;
     ArrayList<News> newsLog = new ArrayList();
@@ -50,7 +57,11 @@ public class NewsPage extends AppCompatActivity {
     protected EditText searchEditText;
     protected SharedPreferences.Editor edit;
 
-
+    /**
+     * onclick method to launch the program and go to different pages
+     * Toast was used to show user actions
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +82,7 @@ public class NewsPage extends AppCompatActivity {
 
         newsList.setOnItemClickListener((lv, vw, pos, id) -> {
             Toast.makeText(NewsPage.this, "You clicked on: " + newsLog.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
-            Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
+//            Snackbar.make(vw, "the author is " + newsLog.get(pos).getAuthor(), Snackbar.LENGTH_LONG).show();
 
 
             Intent goToPage2 = new Intent(NewsPage.this, NewsArticle.class);
@@ -111,6 +122,9 @@ public class NewsPage extends AppCompatActivity {
 
     }
 
+    /**
+     * onPause method to save shared preferences values
+     */
     @Override
     protected void onPause(){
         super.onPause();
@@ -118,6 +132,11 @@ public class NewsPage extends AppCompatActivity {
         edit.commit();
     }
 
+    /**
+     * used to display tool bars to go to different projects
+     * @param item
+     * @return true if successful
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -141,6 +160,11 @@ public class NewsPage extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * method to use inflator for tools bar
+     * @param menu
+     * @return true if successful
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -148,23 +172,46 @@ public class NewsPage extends AppCompatActivity {
         return true;
     }
 
-
+    /**
+     * Customized adapter to manipulate listView
+     */
     private class MyListAdapter extends BaseAdapter {
-
+        /**
+         * obtain the number of items
+         * @return number of items on the list
+         */
         @Override
         public int getCount() {
             return newsLog.size();
         }
 
+        /**
+         * obtain the position of item in the array list
+         * @param position
+         * @return position of item on the list
+         */
         @Override
         public News getItem(int position) {
             return newsLog.get(position);
         }
 
+        /**
+         * obtain item id
+         * @param position
+         * @return position of item
+         */
         @Override
         public long getItemId(int position) {
             return position;
         }
+
+        /**
+         * Obtian view of listView
+         * @param position
+         * @param convertView
+         * @param parent
+         * @return
+         */
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -173,20 +220,22 @@ public class NewsPage extends AppCompatActivity {
 
             thisRow = getLayoutInflater().inflate(R.layout.news_row_page, null);
             TextView itemTitle = thisRow.findViewById(R.id.newsTitle);
-            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
+//            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
             //TextView itemURL = thisRow.findViewById(R.id.newsURL);
 
 
 
-            itemTitle.setText("Title: " + rowNews.getTitle() + " ");
-            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
+            itemTitle.setText(rowNews.getTitle() + " ");
+//            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 
             return thisRow;
         }
     }
 
-
+    /**
+     * customized Alert Boxed
+     */
     private void alertExample() {
         View middle = getLayoutInflater().inflate(R.layout.news_dialog_notification, null);
 
@@ -208,8 +257,15 @@ public class NewsPage extends AppCompatActivity {
         builder.create().show();
     }
 
-
+    /**
+     * class used for Async Task that gets JSON Object from web pages
+     */
     private class NewsQuery extends AsyncTask<String, Integer, String> {
+        /**
+         * connect to web pages using URL and obtain JSON objects
+         * @param strings
+         * @return strings pulled from JSON objects
+         */
         @Override
         protected String doInBackground(String... strings) {
 
@@ -262,6 +318,10 @@ public class NewsPage extends AppCompatActivity {
             return ret;
         }
 
+        /**
+         * Update progress bar, list, and adapter
+         * @param s
+         */
         @Override
         protected void onPostExecute(String s) {
             ProgressBar bar = findViewById(R.id.newsBar);
@@ -271,14 +331,16 @@ public class NewsPage extends AppCompatActivity {
 
         }
 
+        /**
+         * update progress
+         * @param values
+         */
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
         }
 
-        protected void getImage (){
 
-        }
 
     }
 }

@@ -49,7 +49,7 @@
         android:id="@+id/newsSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/newsSave"
         />
 
 

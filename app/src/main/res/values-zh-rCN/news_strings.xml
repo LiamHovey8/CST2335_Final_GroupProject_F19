@@ -13,4 +13,7 @@
     <string name="newsGoToPage">去网页</string>
     <string name="newsTitle">标题: </string>
     <string name="newsDescription">简介： </string>
+
+    <string name="newsSavedArticles">保存网页 </string>
+    <string name="newsSave">保存 </string>
 </resources>

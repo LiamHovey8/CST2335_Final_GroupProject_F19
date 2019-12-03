@@ -1,4 +1,8 @@
 package com.example.cst2335_final_groupproject_f19;
+/**
+ * Page that show saved articles from database
+ * Author: Lindsay Deng
+ */
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,10 +27,18 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
+/**
+ * Display saved articles
+ */
 public class NewsSaved extends AppCompatActivity {
     protected SQLiteDatabase db = null;
     MyListAdapter newsAdapter;
     ArrayList <News> newsLog = new ArrayList();
+
+    /**
+     * obtain data from database and display
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +78,8 @@ public class NewsSaved extends AppCompatActivity {
 
         while(results.moveToNext())
         {
-
-            String _title = results.getString(titleColIndex);
             long _id = results.getLong(idColIndex);
+            String _title = results.getString(titleColIndex);
             String _author = results.getString(authorColIndex);
 
             newsLog.add(new News(_id, _title, _author));
@@ -86,6 +97,11 @@ public class NewsSaved extends AppCompatActivity {
 
     }
 
+    /**
+     * delete instances from database
+     * @param position
+     * @param id
+     */
     private void delete (int position, long id){
         db.delete(NewsDatabaseHelper.TABLE_NAME, NewsDatabaseHelper.COL_ID + "=?", new String[] {Long.toString(id)});
         newsLog.remove(position);
@@ -93,7 +109,11 @@ public class NewsSaved extends AppCompatActivity {
 
     }
 
-
+    /**
+     * display tool bars to go to other pages
+     * @param item
+     * @return true if successful
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -117,6 +137,11 @@ public class NewsSaved extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * inflator for displaying tool bars
+     * @param menu
+     * @return true if successful
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -125,24 +150,46 @@ public class NewsSaved extends AppCompatActivity {
     }
 
 
-
+    /**
+     * List Adapter for displaying saved articles
+     */
     private class MyListAdapter extends BaseAdapter {
-
+        /**
+         * obtain number of items in the list
+         * @return number of items
+         */
         @Override
         public int getCount() {
             return newsLog.size();
         }
 
+        /**
+         * obtain item position
+         * @param position
+         * @return item position
+         */
         @Override
         public News getItem(int position) {
             return newsLog.get(position);
         }
 
+        /**
+         * obtian item id
+         * @param position
+         * @return item id
+         */
         @Override
         public long getItemId(int position) {
             return position;
         }
 
+        /**
+         * Obtain List View from the adapter
+         * @param position
+         * @param convertView
+         * @param parent
+         * @return listView
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View thisRow = convertView;
@@ -150,13 +197,13 @@ public class NewsSaved extends AppCompatActivity {
 
             thisRow = getLayoutInflater().inflate(R.layout.news_row_page, null);
             TextView itemTitle = thisRow.findViewById(R.id.newsTitle);
-            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
+//            TextView itemDescript = thisRow.findViewById(R.id.newsAuthor);
             //TextView itemURL = thisRow.findViewById(R.id.newsURL);
 
 
 
-            itemTitle.setText("Title: " + rowNews.getTitle() + " ");
-            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
+            itemTitle.setText(rowNews.getTitle() + " ");
+//            itemDescript.setText("Author: " + rowNews.getAuthor() + " ");
             //itemURL.setText("URL: " + rowNews.getUrl() + " ");
 
             return thisRow;
