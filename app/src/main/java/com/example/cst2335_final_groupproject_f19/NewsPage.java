@@ -210,7 +210,7 @@ public class NewsPage extends AppCompatActivity {
          * @param position
          * @param convertView
          * @param parent
-         * @return
+         * @return list view
          */
 
         @Override

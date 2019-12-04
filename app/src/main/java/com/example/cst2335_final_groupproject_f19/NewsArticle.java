@@ -5,6 +5,7 @@ package com.example.cst2335_final_groupproject_f19;
  */
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -12,6 +13,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +27,7 @@ import android.widget.Toast;
  */
 
 public class NewsArticle extends AppCompatActivity {
+
     /**
      * get article information from news main page
      * Connect and save to database     *
@@ -32,6 +37,8 @@ public class NewsArticle extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_article);
+        Toolbar tBar = (Toolbar) findViewById(R.id.navigation_toolbar);
+        setSupportActionBar(tBar);
         SQLiteDatabase db;
 
 
@@ -115,5 +122,45 @@ public class NewsArticle extends AppCompatActivity {
 
         });
 
+    }
+
+    /**
+     * display tool bars to go to other pages
+     * @param item
+     * @return true if successful
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.recipe_page_menu_link:
+                Intent goToNewsPage = new Intent(NewsArticle.this, RecipePage.class);
+                NewsArticle.this.startActivityForResult(goToNewsPage, 10);
+                break;
+            case R.id.car_charger_page_menu_link:
+                Intent goToCarChargerFinder = new Intent(NewsArticle.this, CarChargerFinder.class);
+                NewsArticle.this.startActivityForResult(goToCarChargerFinder, 10);
+                break;
+            case R.id.currency_exchange_page_menu_link:
+                Intent goToCurrencyExchange = new Intent(NewsArticle.this, CurrencyExchangeMain.class);
+                NewsArticle.this.startActivityForResult(goToCurrencyExchange, 10);
+                break;
+
+            case R.id.news_page_menu_link:
+
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * inflator for displaying tool bars
+     * @param menu
+     * @return true if successful
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.page_menu, menu);
+        return true;
     }
 }
